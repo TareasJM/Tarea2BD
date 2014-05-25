@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using MySql.Data.MySqlClient;
 using Tarea2BD.Models;
 
 namespace Tarea2BD.Controllers
