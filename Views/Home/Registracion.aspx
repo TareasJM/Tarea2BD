@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage" %>
+<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage" %>
 
 <!DOCTYPE html>
 
@@ -9,8 +9,43 @@
     <title></title>
     <script  src="jquery.js"></script>
     <script>
-        var index = $('#List').get(0).selectedIndex;
-        $('#List option:eq(' + index + ')').remove();
+        $(function() {
+            $('#regForm').submit(function() {
+                var PassUser = document.getElementById("PassUser").value;
+                var PassUserR = document.getElementById("PassUserR").value;
+                var UserBorn = document.getElementById("UserBorn").value;
+                var UserSex = document.getElementById("UserSex").value;
+                var UserAvatar = document.getElementById("UserAvatar-Url").value;
+
+                if (PassUser != PassUserR) {
+                    alert("Error: Contraseñas no coinciden!");
+                    return false;
+                };
+
+                if (PassUser.length < 6) {
+                    alert("Error: Contraseñas muy corta (min 6)!");
+                    return false;
+                };
+
+                re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
+                if (UserBorn == '' || UserBorn.match(re)) {
+                    alert("Error: Fecha no valida (DD/MM/AAAA)!");
+                    return false;
+                };
+
+                if (PassSex != "H" && PassSex != "M") {
+                    alert("Error: Sexo no valido (H | M)!");
+                    return false;
+                };
+
+                if (UserAvatar.match(/\.(jpeg|jpg|gif|png)$/) == null) {
+                    alert("Error: Url no valida!");
+                    return false;
+                };
+                
+                return true; // return false to cancel form action
+            });
+        });
     </script>
     </head>
 <body>
@@ -38,7 +73,7 @@
 
             </div>
             <div id="CC">              
-                <% using(Html.BeginForm("Registracion2","Home"))
+                <% using(Html.BeginForm("Registracion2","Home", new{@id = "regForm"}))
                 {%>
                 <h2><%=ViewBag.Message%></h2>
  
@@ -61,27 +96,27 @@
                     </tr>
                     <tr>
                         <td><h2> Pass </h2></td>
-                        <td><input type="password" name="PassUser" /> </td>
+                        <td><input type="password" name="PassUser" id="PassUser"/> </td>
                         <td style="color:red"><%=ViewBag.Items[1]%></td>    
                     </tr>
                     <tr>
                         <td><h2> R-Pass </h2> </td>
-                        <td><input type="password" name="PassUserR" /> </td>
+                        <td><input type="password" name="PassUserR" id="PassUserR"/> </td>
                         <td style="color:red"><%=ViewBag.Items[0]%></td>    
                     </tr>
                     <tr>
                         <td><h2> Born </h2> </td>
-                        <td><input  type="text" name="UserBorn" /> </td>
+                        <td><input  type="text" name="UserBorn" id="UserBorn"/> </td>
                         <td style="color:red"><%=ViewBag.Items[1]%></td>    
                     </tr>
                     <tr>
                         <td><h2> Sex </h2> </td> 
-                        <td> <input  type="text" name="UserSex" /> </td>
+                        <td> <input  type="text" name="UserSex" id="UserSex"/> </td>
                         <td style="color:red"><%=ViewBag.Items[1]%></td>    
                     </tr>
                     <tr>
                         <td><h2> A-Url </h2> </td>
-                        <td><input type="text" name="UserAvatar-Url" /> </td>
+                        <td><input type="text" name="UserAvatar-Url" id="UserAvatar-Url"/> </td>
                         <td style="color:red"><%=ViewBag.Items[1]%></td>    
                     </tr>
                  
