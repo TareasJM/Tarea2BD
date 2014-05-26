@@ -1,6 +1,9 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage" %>
 <%@ Import Namespace ="Tarea2BD.Models"%>
-<%  // aqui getTodasCategorias() %>
+<%
+    string[] names = nombreTodasCategorias()
+    var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+%>
 <!DOCTYPE html>
 
 <html>
@@ -14,6 +17,8 @@
         }
 
          function validateForm() {
+            var names = <%= serializer.Serialize(names) %>;
+
             var CatName = document.getElementById("CatName").value;
             var CatDes = document.getElementById("CatDes").value;
 
@@ -27,8 +32,8 @@
                 return false;
             };
 
-            for (var i = categorias.length - 1;i >= 0; i--) {
-                if (CatName == categorias[i]) {
+            for (var i = names.length - 1;i >= 0; i--) {
+                if (CatName == names[i]) {
                     alert("Error: Debe tener descripción!");
                     return false;
                 };
