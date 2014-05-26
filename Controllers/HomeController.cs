@@ -155,13 +155,19 @@ namespace Tarea2BD.Controllers
             string title = (string)Request["title"];
             string destiny = (string)Request["Destinatario"];
             int origen = (int)Session["UserID"];
+            if (!user.Checkuser(destiny))
+            {
+                MessageBox.Show("No Existe Usuario Destino", "Invalido", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return Redirect("MP");
+            }
             user = user.getUser(destiny);
-            inbox = inbox.getInbox(user.id);
-            DateTime thisDay = DateTime.Today;
+            inbox = inbox.getInbox(user.id);           
+            DateTime thisDay = DateTime.Now;
             string date = thisDay.ToString();
+
             String sql = "Insert into mp (id_userfrom,id_inbox,title,check_read,messages,date_send)"
              + "values ('{0}','{1}','{2}','{3}','{4}','{5}')";
-            MessageBox.Show("inbox.id = " + inbox.id);
+            
             using (SqlConnection connection = BD.getConnection())
             {
                 SqlCommand Comando = new SqlCommand(string.Format(sql, origen, inbox.id,title, 0, message, date), connection);

@@ -68,7 +68,7 @@
                         <%if (Session["UserIDG"].Equals(1) || Session["UserIDG"].Equals(2))
                         {%>
                             
-                                <td><%:Html.ActionLink("Eliminar","EliminarTop","Categorias",new { name = (string)ViewBag.Items[i] }, new { @class = "boton" })%></td>
+                                <td><%:Html.ActionLink("Eliminar","EliminarTop","Categorias",new { name = (string)ViewBag.Items[i]}, new { @class = "boton" })%></td>
                             <%}%>
                             </tr>  
                           </table>                  

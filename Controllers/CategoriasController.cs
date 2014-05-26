@@ -91,12 +91,13 @@ namespace Tarea2BD.Controllers
         [HttpGet]
         public ActionResult EliminarCo(int id)
         {
+
             string texto = "Estas seguro de Eliminar el comentario?";
             string titulo = "Eliminar Comentario";
             MessageBoxButtons button = MessageBoxButtons.YesNoCancel;
             MessageBoxIcon icon = MessageBoxIcon.Question;
             DialogResult result = MessageBox.Show(texto, titulo, button, icon);
-
+            
             if (result.Equals(System.Windows.Forms.DialogResult.Yes))
             {
                 String sql = "Delete from Comments where id_comment = '" + id + "'";
@@ -117,7 +118,9 @@ namespace Tarea2BD.Controllers
                     MessageBox.Show("No se pudo borrar el Comentario", "Fallo!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
+                       
             return RedirectToAction("GeneralTop", new { name = Session["TopicName"].ToString() });
+
         }
 
         [HttpGet]
@@ -153,9 +156,29 @@ namespace Tarea2BD.Controllers
             MessageBoxButtons button = MessageBoxButtons.YesNoCancel;
             MessageBoxIcon icon = MessageBoxIcon.Question;
             DialogResult result = MessageBox.Show(texto, titulo, button, icon);
-
+            List<Topics> topics = new List<Topics>();
+            Comments comments = new Comments();
+            Topics top = new Topics();
+            topics = top.getAllTopicsByCatID(id);
             if (result.Equals(System.Windows.Forms.DialogResult.Yes))
             {
+                
+                for (int i = 0; i < topics.Count; i++)
+                {
+                    if (comments.DeleteCommentsByIDTopic(topics[i].id_topic))
+                    {
+                        continue;                 
+                    }
+                    else
+                    {
+                        MessageBox.Show("Comentario de " + topics[i].id_topic + "no eliminado");
+                    }
+                }
+                if (!top.DeleteTopicsByIDCat(id))
+                {
+                    MessageBox.Show("Topic de " + id + "no eliminado");   
+                }
+
                 String sql = "Delete from Category where id_category = '" + id.ToString() + "'";
                 int retorno = 0;
                 using (SqlConnection connection = BD.getConnection())
@@ -174,7 +197,7 @@ namespace Tarea2BD.Controllers
                     MessageBox.Show("No se pudo borrar la Categoria", "Fallo!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
-            return Redirect("../../Home/Categorias");
+            return RedirectToAction("Categorias", "Home");
         }
 
         public ActionResult NuevaCategoria()
@@ -264,7 +287,8 @@ namespace Tarea2BD.Controllers
 
         [HttpGet]
         public ActionResult EliminarTop(string name)
-        {
+        {   
+
             string texto = "Estas seguro de Eliminar el topic?";
             string titulo = "Eliminar Topic";
             MessageBoxButtons button = MessageBoxButtons.YesNoCancel;
@@ -285,14 +309,16 @@ namespace Tarea2BD.Controllers
                 if (retorno > 0)
                 {
                     MessageBox.Show("Topic Borrado Con Exito!!", "Eliminado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 }
                 else
                 {
                     MessageBox.Show("No se pudo borrar el Topic", "Fallo!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
-            return RedirectToAction("GeneralCat", new { name = (string)Session["CatName"] });
+
+             return Redirect("GeneralCat");
+
+
         }
 
     }

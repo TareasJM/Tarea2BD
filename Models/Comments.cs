@@ -50,7 +50,28 @@ namespace Tarea2BD.Models
             return Comments;
         }
 
-        
+
+        public bool DeleteCommentsByIDTopic(int id)
+        {
+
+            String sql = "Delete From Comments where id_topic = '" + id.ToString() + "'";
+            int retorno = 0;
+            using (SqlConnection connection = BD.getConnection())
+            {
+                SqlCommand Comando = new SqlCommand(string.Format(sql), connection);
+                retorno = Comando.ExecuteNonQuery();
+                if (retorno > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+              
+        }
 
     }
 }
