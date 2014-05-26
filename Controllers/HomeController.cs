@@ -87,7 +87,7 @@ namespace Tarea2BD.Controllers
 
                 }
             }
-            return View();
+            return Redirect("Registracion");
         }
 
         public ActionResult Login()

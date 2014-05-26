@@ -12,7 +12,7 @@ namespace Tarea2BD.Models
     {
         public static SqlConnection getConnection()
         {
-            SqlConnection connection = new SqlConnection("Data Source=SALINAS-VAIO\\SQLEXPRESS2008;Initial Catalog=BaseDeDatos;Integrated Security=True");
+            SqlConnection connection = new SqlConnection("Data Source=(localdb)\\Projects;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False");
             connection.Open();
 
             return connection;
