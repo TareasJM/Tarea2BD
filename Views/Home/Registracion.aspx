@@ -9,43 +9,41 @@
     <title></title>
     <script  src="jquery.js"></script>
     <script>
-        $(function() {
-            $('#regForm').submit(function() {
-                var PassUser = document.getElementById("PassUser").value;
-                var PassUserR = document.getElementById("PassUserR").value;
-                var UserBorn = document.getElementById("UserBorn").value;
-                var UserSex = document.getElementById("UserSex").value;
-                var UserAvatar = document.getElementById("UserAvatar-Url").value;
+        function validateForm() {
+            var PassUser = document.getElementById("PassUser").value;
+            var PassUserR = document.getElementById("PassUserR").value;
+            var UserBorn = document.getElementById("UserBorn").value;
+            var UserSex = document.getElementById("UserSex").value;
+            var UserAvatar = document.getElementById("UserAvatar-Url").value;
 
-                if (PassUser != PassUserR) {
-                    alert("Error: Contraseñas no coinciden!");
-                    return false;
-                };
+            if (PassUser != PassUserR) {
+                alert("Error: Contraseñas no coinciden!");
+                return false;
+            };
 
-                if (PassUser.length < 6) {
-                    alert("Error: Contraseñas muy corta (min 6)!");
-                    return false;
-                };
+            if (PassUser.length < 6) {
+                alert("Error: Contraseñas muy corta (min 6)!");
+                return false;
+            };
 
-                re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
-                if (UserBorn == '' || UserBorn.match(re)) {
-                    alert("Error: Fecha no valida (DD/MM/AAAA)!");
-                    return false;
-                };
+            re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
+            if (UserBorn == '' || UserBorn.match(re)) {
+                alert("Error: Fecha no valida (DD/MM/AAAA)!");
+                return false;
+            };
 
-                if (PassSex != "H" && PassSex != "M") {
-                    alert("Error: Sexo no valido (H | M)!");
-                    return false;
-                };
+            if (PassSex != "H" && PassSex != "M") {
+                alert("Error: Sexo no valido (H | M)!");
+                return false;
+            };
 
-                if (UserAvatar.match(/\.(jpeg|jpg|gif|png)$/) == null) {
-                    alert("Error: Url no valida!");
-                    return false;
-                };
-                
-                return true; // return false to cancel form action
-            });
-        });
+            if (UserAvatar.match(/\.(jpeg|jpg|gif|png)$/) == null) {
+                alert("Error: Url no valida!");
+                return false;
+            };
+            
+            return true; // return false to cancel form action
+        }
     </script>
     </head>
 <body>
@@ -74,8 +72,12 @@
             </div>
             <div id="CC">              
                 
+<<<<<<< HEAD
                 <h2><%=ViewBag.Message%></h2>
                 <form id="regForm" action="/Home/Registracion2" method="post">
+=======
+                <form id="regForm" action="/Home/Registracion2" method="post" onsubmit="return validateForm()">
+>>>>>>> 170ed565bd1d8bfa712ade2ef27f0868373f4ce2
                 <table style="margin:auto; position:static" >
                     
                     <tr>
@@ -122,7 +124,10 @@
                 </table>
                     <input type="submit" value="Send"/>
                 </form>
+<<<<<<< HEAD
                
+=======
+>>>>>>> 170ed565bd1d8bfa712ade2ef27f0868373f4ce2
             </div>
 
             <div id="CD">
