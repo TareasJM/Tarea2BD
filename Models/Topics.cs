@@ -124,6 +124,27 @@ namespace Tarea2BD.Models
 
         }
 
+        public List<string> getAllNamesTopics()
+        {
+            List<string> ListTop = new List<string>();
+            String sql = "Select nameTopic From Category order by id_category";
+
+            using (SqlConnection connection = BD.getConnection())
+            {
+                SqlCommand Comando = new SqlCommand(string.Format(sql), connection);
+
+                SqlDataReader reader = Comando.ExecuteReader();
+                while (reader.Read())
+                {
+
+                    string top = reader.GetString(0);
+                    ListTop.Add(top);
+                }
+            }
+
+            return ListTop;
+        }
+
     }//class
 
      
