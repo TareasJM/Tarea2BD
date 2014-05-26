@@ -71,13 +71,10 @@
 
             </div>
             <div id="CC">              
-                
-<<<<<<< HEAD
+
                 <h2><%=ViewBag.Message%></h2>
-                <form id="regForm" action="/Home/Registracion2" method="post">
-=======
                 <form id="regForm" action="/Home/Registracion2" method="post" onsubmit="return validateForm()">
->>>>>>> 170ed565bd1d8bfa712ade2ef27f0868373f4ce2
+
                 <table style="margin:auto; position:static" >
                     
                     <tr>
@@ -124,10 +121,7 @@
                 </table>
                     <input type="submit" value="Send"/>
                 </form>
-<<<<<<< HEAD
-               
-=======
->>>>>>> 170ed565bd1d8bfa712ade2ef27f0868373f4ce2
+
             </div>
 
             <div id="CD">
