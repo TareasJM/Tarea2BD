@@ -215,6 +215,10 @@ namespace Tarea2BD.Controllers
         {
             ViewBag.Message = "Nuevo Topic";
             ViewData["CatName2"] = cat;
+            Topics topic = new Topics();
+            List<string> names = topic.getAllNamesTopic();
+            ViewBag.Items = names;
+            ViewBag.Serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
             return View();
         }
 
