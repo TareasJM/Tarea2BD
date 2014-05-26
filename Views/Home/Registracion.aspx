@@ -10,11 +10,17 @@
     <script  src="jquery.js"></script>
     <script>
         function validateForm() {
+            var User = document.getElementById("UserName").value;
             var PassUser = document.getElementById("PassUser").value;
             var PassUserR = document.getElementById("PassUserR").value;
             var UserBorn = document.getElementById("UserBorn").value;
             var UserSex = document.getElementById("UserSex").value;
             var UserAvatar = document.getElementById("UserAvatar-Url").value;
+
+            if (UserName.length < 4) {
+                alert("Error: Nombre de Usuario muy corto (min 4)!");
+                retun false;
+            };
 
             if (PassUser != PassUserR) {
                 alert("Error: Contraseñas no coinciden!");
@@ -79,7 +85,7 @@
                     
                     <tr>
                         <td><h2> User </h2> </td>
-                        <td><input type="text" name="UserName" /> </td>
+                        <td><input type="text" name="UserName" id = "UserName"/> </td>
                     </tr>
                     <tr>
                         <td><h2> Tipo </h2> </td>
