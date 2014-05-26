@@ -31,7 +31,7 @@ namespace Tarea2BD.Models
         public List<Categorias> getAllCategories()
         {
             List<Categorias> ListCat = new List<Categorias>();
-            String sql = "Select *From Category order by id_category";
+            String sql = "Select *From Category order by name_category";
 
             using (SqlConnection connection = BD.getConnection())
             {
@@ -67,7 +67,7 @@ namespace Tarea2BD.Models
                 SqlDataReader reader = Comando.ExecuteReader();
                 while (reader.Read())
                 {
-                    MessageBox.Show(reader.GetInt32(0).ToString());
+                    
                     int cat = reader.GetInt32(0);
                     ListCat.Add(cat);
                 }
@@ -95,7 +95,26 @@ namespace Tarea2BD.Models
             return id;
         }
 
-       
+        public List<string> getAllNamesCat()
+        {
+            List<string> ListCat = new List<string>();
+            String sql = "Select name_category From Category order by id_category";
+
+            using (SqlConnection connection = BD.getConnection())
+            {
+                SqlCommand Comando = new SqlCommand(string.Format(sql), connection);
+
+                SqlDataReader reader = Comando.ExecuteReader();
+                while (reader.Read())
+                {
+                    
+                    string cat = reader.GetString(0);
+                    ListCat.Add(cat);
+                }
+            }
+
+            return ListCat;
+        }
 
     }
 }

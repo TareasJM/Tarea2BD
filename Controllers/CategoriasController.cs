@@ -203,6 +203,10 @@ namespace Tarea2BD.Controllers
         public ActionResult NuevaCategoria()
         {
             ViewBag.Message = "Nueva Categoria";
+            Categorias cat = new Categorias();
+            List<string> names = cat.getAllNamesCat();
+            ViewBag.Items = names;
+            ViewBag.Serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
             return View();
         }
 

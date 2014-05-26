@@ -1,9 +1,6 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage" %>
 <%@ Import Namespace ="Tarea2BD.Models"%>
-<%
-    string[] names = nombreTodasCategorias()
-    var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
-%>
+
 <!DOCTYPE html>
 
 <html>
@@ -11,30 +8,30 @@
     <meta name="viewport" content="width=device-width" />
     <link href="../../Resources/Index.css" type="text/css" rel="stylesheet" />
     <title></title>
-    <script>
+    <script type="text/javascript">
         function valuecheck(check) {
             check.value = "1";
         }
 
          function validateForm() {
-            var names = <%= serializer.Serialize(names) %>;
+            var names = <%=ViewBag.Serializer.Serialize(ViewBag.Items)%>; 
 
             var CatName = document.getElementById("CatName").value;
             var CatDes = document.getElementById("CatDes").value;
 
             if (CatName.length < 4) {
                 alert("Error: Nombre de categoria muy corto (min 4)!");
-                retun false;
+                return false;
             };
             
-            if (CatDes != "") {
+            if (CatDes == "") {
                 alert("Error: Debe tener descripción!");
                 return false;
             };
 
             for (var i = names.length - 1;i >= 0; i--) {
                 if (CatName == names[i]) {
-                    alert("Error: Debe tener descripción!");
+                    alert("Error: Categoria Existente");
                     return false;
                 };
             };
@@ -52,9 +49,18 @@
 
                 <div id="BH">
                     <ul>
+                        <%if( Session["User"] == null)
+                        {%>
                         <li><%:Html.ActionLink("Home","Index","Home")%></li>
+                        <li><%:Html.ActionLink("Login","Login","Home")%></li>
+                        <li><%:Html.ActionLink("Register","Registracion","Home")%></li>
+                        <% }%>
+                        <%else
+                          {%>
+                        <li><%:Html.ActionLink("Home","UserIn","Home")%></li>
                         <li><%:Html.ActionLink((string)Session["User"],"MiPerfil","Home")%></li>
                         <li><%:Html.ActionLink("Logout","Logout","Home")%></li>
+                        <%}%>
                     </ul>
                 </div> 
 
