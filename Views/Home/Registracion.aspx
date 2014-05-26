@@ -72,6 +72,7 @@
             </div>
             <div id="CC">              
                 
+                <form id="regForm" action="/Home/Registracion2" method="post" onsubmit="return validateForm()">
                 <table style="margin:auto; position:static" >
                     
                     <tr>
@@ -117,7 +118,7 @@
                  
                 </table>
                     <input type="submit" value="Send"/>
-                }
+                </form>
             </div>
 
             <div id="CD">
