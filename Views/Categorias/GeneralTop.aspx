@@ -102,7 +102,7 @@
                             <%if (Session["UserIDG"].Equals(1) || Session["UserIDG"].Equals(2) || Comments[i].id_user.Equals(Session["UserID"]))
                           {%>
                             <td><%:Html.ActionLink("Editar", "EditarCo", "Categorias", new {id = Comments[i].id}, new { @class = "boton2" })%></td>                            
-                            <td><%:Html.ActionLink("Eliminar", "EliminarCo", "Categorias", new {id = Comments[i].id }, new { @class = "boton2" })%></td>
+                            <td><%:Html.ActionLink("Eliminar", "EliminarCo", "Categorias", new {id = Comments[i].id}, new { @class = "boton2" })%></td>
                         <%} %>
                             <!-- poner foto -->                   
                         </tr>
