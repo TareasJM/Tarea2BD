@@ -19,26 +19,8 @@ namespace Tarea2BD.Models
 
         }
 
-        public static void getUser(String name)
-        {
-            String sql = "Select Name From users where name like '%{0}%'";
-            using (SqlConnection connection = BD.getConnection())
-            {
-                SqlCommand Comando = new SqlCommand(string.Format(sql, name), connection);
-
-                SqlDataReader reader = Comando.ExecuteReader();
-                while (reader.Read())
-                {
-                    MessageBox.Show(reader.GetString(0));
-                    if(!name.Equals(reader.GetString(0)))
-                    {
-                        MessageBox.Show("User doesn´t match");
-                    }
-                }
-                connection.Close();
-
-            }
-        }
+        
+        
 
 
         /*public void Desconectar()

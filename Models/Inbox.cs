@@ -3,35 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.SqlClient;
-using Tarea2BD.Models;
 
 namespace Tarea2BD.Models
 {
-    public class G_User
+    public class Inbox
     {
         public int id;
-        public string name;
+        public int id_user;
+        public int msg_in;
+        public int msg_out;
 
-        public G_User()
+        public Inbox()
         {
+
         }
 
-        public int getIDGUser(string name)
+        public Inbox getInbox(int id)
         {
-            String sql = "Select id_group From Group_user where name_group ='" + name +"'";
-            int id = 0;
+            Inbox inbox = new Inbox();
+            String sql = "Select *From Inbox where id_user = '" + id + "'";
             using (SqlConnection connection = BD.getConnection())
             {
                 SqlCommand Comando = new SqlCommand(string.Format(sql), connection);
-
                 SqlDataReader reader = Comando.ExecuteReader();
                 while (reader.Read())
                 {
 
-                    id = reader.GetInt32(0);
+                    inbox.id = reader.GetInt32(0);
+                    inbox.id_user= reader.GetInt32(1);
+                    inbox.msg_in = reader.GetInt32(2);
+                    inbox.msg_in = reader.GetInt32(3);
+       
                 }
             }
-            return id;
+            return inbox;
         }
 
     }

@@ -37,23 +37,29 @@
 
             </div>
             <div id="CC">              
-                <% using(Html.BeginForm("Registracion","Home"))
+                <% using(Html.BeginForm("EditarPerfil","Home"))
                 {%>
                 <h2><%=ViewBag.Message%></h2>
  
                 <table style="margin:auto; position:static" >
-                    
+                    <%if(Session["UserIDG"].Equals(1))  
+                      {%>
                     <tr>
-                        <td><h2> User </h2> </td>
-                        <td><input type="text" name="UserName" value="<%=user.name%>"/> </td>
+                        <td><h2> Tipo </h2> </td>
+                        <td><input type="text" name="UserType" value="<%=user.name%>"/> </td>
+                    </tr>
+                    <%} %>
+                    <tr>
+                        <td><h2> Pass </h2> </td>
+                        <td><input type="text" name="PassUser" value="<%=user.name%>"/> </td>
                     </tr>
                     <tr>
-                        <td><h2> Born </h2> </td>
-                        <td><input  type="text" name="UserBorn" value="<%=user.born%>"/> </td>  
+                        <td><h2> R-Pass </h2> </td>
+                        <td><input  type="text" name="RPass" value="<%=user.born%>"/> </td>  
                     </tr>
                     <tr>
-                        <td><h2> Sex </h2> </td> 
-                        <td> <input  type="text" name="UserSex" value="<%=user.sex%>"/> </td>  
+                        <td><h2> Born </h2> </td> 
+                        <td> <input  type="text" name="UserBorn" value="<%=user.sex%>"/> </td>  
                     </tr>
                     <tr>
                         <td><h2> A-Url </h2> </td>
@@ -61,6 +67,7 @@
                     </tr>
 
                 </table>
+                <input type="hidden" name="UserName" value="<%=user.name%>" />
                 <input  type="submit" value="Guardar"/>  
                <%}%>
             </div>

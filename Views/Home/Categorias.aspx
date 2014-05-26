@@ -49,11 +49,32 @@
             <div id="CC"> 
                      <%ViewData["Count"] = categorias.Count;%>             
                      <%if(!categorias.Count.Equals(0))
-                       {
-                            for (int i = 0; i < categorias.Count; i++ )
-                            {%>
-                            <li><%:Html.ActionLink(categorias[i].name, "GeneralCat", "Categorias", new { name = categorias[i].name }, new { @class = "boton" })%></li>
-                  
+                       {%>
+                          
+                   
+                            <%for (int i = 0; i < categorias.Count; i++ )
+                            {
+                            if(!Session["UserIDG"].Equals(4) || categorias[i].publico.Equals(0))    
+                            { %>
+                            
+                            <table style="margin:auto; padding-top:30px" >
+                                <tr>
+                                    <td><%:Html.ActionLink(categorias[i].name, "GeneralCat", "Categorias", new { name = categorias[i].name }, new { @class = "boton" })%></td>
+                                    <%if(Session["UserIDG"].Equals(1) || Session["UserIDG"].Equals(2))
+                                      {%>
+                                    <td><%:Html.ActionLink("Eliminar","EliminarCa","Categorias",new { id = categorias[i].id_categoria }, new { @class = "boton" })%></td>
+                                        <%} %>
+                                </tr>
+                            </table>
+                           <%}
+                             else if(Session["UserIDG"].Equals(4) && categorias[i].publico.Equals(1))
+                             { %> 
+                            <table style="margin:auto; padding-top:30px" >
+                                <tr>
+                                    <td><%:Html.ActionLink(categorias[i].name, "GeneralCat", "Categorias", new { name = categorias[i].name }, new { @class = "boton" })%></td>
+                                </tr>
+                           </table>
+                            <%} %>    
                     <% }}%>
 
             </div>
@@ -62,8 +83,7 @@
                 <% if(Session["UserIDG"].Equals(1))
                     { %>
                         <li><%:Html.ActionLink("Nueva Categoria","NuevaCategoria","Categorias")%></li>
-                        <li><%:Html.ActionLink("Eliminar Categoria","NuevaCategoria","Categorias")%></li>
-                <%  } %>
+                    <%} %>  
 
             </div>
 

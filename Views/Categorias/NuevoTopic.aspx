@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage" %>
-
+<% string cat = ViewData["CatName2"].ToString();%>
 <!DOCTYPE html>
 
 <html>
@@ -7,6 +7,11 @@
     <meta name="viewport" content="width=device-width" />
     <link href="../../Resources/Index.css" type="text/css" rel="stylesheet" />
     <title></title>
+    <script>
+        function valuecheck(check) {
+            check.value = "1";
+        }
+    </script>
 </head>
 <body>
     
@@ -58,11 +63,12 @@
                         <!--<td style="color:red">%=ViewBag.Items[1]%></td>    -->
                     </tr>
                     <tr>
-                        <td><h2> Publico </h2> </td>
-                        <td><input type="text" name="TopicPublic" /> </td>
+                        <td></td>
+                        <td><input type="checkbox" name="TopicPub" onclick="valuecheck(this)">Publico<td>
                         <!--<td style="color:red">%=ViewBag.Items[0]%></td> -->   
                     </tr>
                 </table>
+                    <input type="hidden" name="Cat_name" value="<%=cat%>" />
                     <input type="submit" value="Send"/>
                <%}%>
             </div>

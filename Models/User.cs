@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.SqlClient;
+using System.Windows.Forms;
 using Tarea2BD.Models;
 
 namespace Tarea2BD.Models
@@ -40,37 +41,38 @@ namespace Tarea2BD.Models
 
         public User getUser(string name)
         {
-            String sql = "Select *From Users where name like '%{0}%'";
+            String sql = "Select *From Users where name = '"+name+"'";
             User user = new User();
+            user.name = "vacio";
+            user.pass = "vacio";
             using (SqlConnection connection = BD.getConnection())
             {
-                SqlCommand Comando = new SqlCommand(string.Format(sql, name), connection);
+                SqlCommand Comando = new SqlCommand(string.Format(sql), connection);
+                    SqlDataReader reader = Comando.ExecuteReader();
+                    while (reader.Read())
+                    {
 
-                SqlDataReader reader = Comando.ExecuteReader();
-                while (reader.Read())
-                {
-
-                    user.id = reader.GetInt32(0);
-                    user.id_group = reader.GetInt32(1);
-                    user.name = reader.GetString(2);
-                    user.pass = reader.GetString(3);
-                    user.comments = reader.GetInt32(4);
-                    user.a_url = reader.GetString(5);
-                    user.born = reader.GetString(6);
-                    user.sex = reader.GetString(7);
-                    user.date_r = reader.GetString(8);
-                }
+                        user.id = reader.GetInt32(0);
+                        user.id_group = reader.GetInt32(1);
+                        user.name = reader.GetString(2);
+                        user.pass = reader.GetString(3);
+                        user.comments = reader.GetInt32(4);
+                        user.a_url = reader.GetString(5);
+                        user.born = reader.GetString(6);
+                        user.sex = reader.GetString(7);
+                        user.date_r = reader.GetString(8);
+                    }             
             }
             return user;
         }
 
         public User getUserID(int id)
         {
-            String sql = "Select *From Users where id_user like '%{0}%'";
+            String sql = "Select *From Users where id_user = '"+id.ToString()+"'";
             User user = new User();
             using (SqlConnection connection = BD.getConnection())
             {
-                SqlCommand Comando = new SqlCommand(string.Format(sql, id), connection);
+                SqlCommand Comando = new SqlCommand(string.Format(sql), connection);
 
                 SqlDataReader reader = Comando.ExecuteReader();
                 while (reader.Read())

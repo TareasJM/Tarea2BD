@@ -3,10 +3,11 @@
 
 <% User user = new User();
    user = user.getUserID((int)ViewData["TopicIDU"]);
+   int topicIDU = (int)ViewData["TopicIDU"];
    Comments com = new Comments();
    List<Comments> Comments = new List<Comments>();
    Comments = com.getAllCommentByIDTopic((int)ViewData["TopicID"]);
-   
+   Session["TopicName"] = ViewBag.Items[0];
    %>
 <!DOCTYPE html>
 
@@ -49,57 +50,60 @@
 
         <div id="content">
             <div id="CI">
-                <%if(!Session["UserIDG"].Equals(4))
-                  {%>
-                    <li><%:Html.ActionLink("Nuevo Topic","NuevoTopic","Categorias")%></li>
-                <%} %>
+
             </div>
             <div id="CC">    
                 
-                <table style="margin:auto; position:static; width:90%; " >
+                <table style="margin:auto; width:90%; " >
                     
                     <tr>
-                        <td><h2> <%=ViewBag.Items[0]%> </h2> </td>
+                        <td><h2> <%=(string)ViewBag.Items[0]%> </h2></td>
                     </tr>
                     <tr>
-                        <td ><%=ViewBag.Items[1]%></td>  
+                        <td ><%=(string)ViewBag.Items[1]%></td>  
                     </tr>
                     <tr>
-                        <td><textarea readonly style=" margin:auto; resize:none; width:90%; height:75px; border:none; position:static" id="TextArea1 " ><%=ViewBag.Items[2]%></textarea></td>
+                        <td><textarea readonly style=" margin:auto; resize:none; width:90%; height:75px; border:1px solid black; position:static" id="TextArea1 " ><%=(string)ViewBag.Items[2]%></textarea></td>
                     </tr>
                 </table>
                 <table style="margin:auto">
                     <tr>
-                        <td style="padding-right: 10px">Comentarios: <%=ViewBag.Comments%>   </td>
+                        <td style="padding-right: 10px">Comentarios: <%=Comments.Count%>   </td>
 
-                        <td style="padding-right: 10px">Autor: <%=user.name%>   </td>
+                        <td style="padding-right: 10px">Autor:  <%:Html.ActionLink(user.name, "VerPerfil", "Home", new { id = user.id, name = user.name}, new { @class = "boton2" })%>  </td>
                         <!-- poner foto --> 
-                        
-                    </tr>
-                </table>
-                <%if(!Session["UserIDG"].Equals(4))
+                         <%if(!Session["UserIDG"].Equals(4))
      
                         {%>
                             
-                           <%:Html.ActionLink("Comment", "Comentar", "Categorias", new {topic = (int)ViewData["TopicID"]},new { @class = "boton"})%>
+                           <td><%:Html.ActionLink("Comment", "Comentar", "Categorias", new {topicIDU = topicIDU, topic = (int)ViewData["TopicID"]},new { @class = "boton2"})%></td>
                             
                       <% } %>
-                        <%if(!Session["UserIDG"].Equals(3) || !Session["UserIDG"].Equals(4))
+                        <%if(Session["UserIDG"].Equals(1) || Session["UserIDG"].Equals(2))
                           {%>
-           
-                            <%:Html.ActionLink("Eliminar", "NuevoTopic", "Categorias", new { }, new { @class = "boton" })%>
+                            <td><%:Html.ActionLink("Eliminar", "EliminarTo", "Categorias", new { }, new { @class = "boton2" })%></td>
                         <%} %>
+                        
+                    </tr>
+                </table>
+               
+                <h2>Respuestas</h2>
                 <%for(int i=0; i < Comments.Count; i++)
                   {
                       user = user.getUserID(Comments[i].id_user);%>
                      <table style="margin:auto; position:static; width:90%; " >
                         <tr>
-                            <td><textarea readonly style=" margin:auto; resize:none; width:90%; height:75px; border:none; position:static" id="TextArea1" ><%=Comments[i].msg%></textarea></td>
+                            <td><textarea readonly style=" margin:auto; resize:none; width:90%; max-height:100px; border: 1px solid blue; position:static"><%=Comments[i].msg%></textarea></td>
                         </tr>
                     </table>
-                    <table style="margin:auto">
-                        <tr>
-                            <td style="padding-right: 10px">Autor: <%:Html.ActionLink(user.name, "VerPerfil", "Home")%></td>
+                    <table style="margin:auto; padding-bottom:20px">
+                        <tr>                            
+                            <td style="padding-right: 10px">Autor: <%:Html.ActionLink(user.name, "VerPerfil", "Home", new { id = user.id, name = user.name}, new { @class = "boton2" })%></td>
+                            <%if (Session["UserIDG"].Equals(1) || Session["UserIDG"].Equals(2) || Comments[i].id_user.Equals(Session["UserID"]))
+                          {%>
+                            <td><%:Html.ActionLink("Editar", "EditarCo", "Categorias", new {id = Comments[i].id}, new { @class = "boton2" })%></td>                            
+                            <td><%:Html.ActionLink("Eliminar", "EliminarCo", "Categorias", new {id = Comments[i].id }, new { @class = "boton2" })%></td>
+                        <%} %>
                             <!-- poner foto -->                   
                         </tr>
                     </table>

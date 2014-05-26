@@ -18,7 +18,8 @@
 
                 <div id="BH">
                     <ul>
-                        <li><%:Html.ActionLink("Home","Index","Home")%></li>                     
+                        <li><%:Html.ActionLink("Home","Index","Home")%></li>
+                        <li><%:Html.ActionLink("Register","Registracion","Home")%></li>                     
                     </ul>
                 </div> 
 

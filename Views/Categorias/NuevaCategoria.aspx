@@ -1,5 +1,4 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage" %>
-
 <!DOCTYPE html>
 
 <html>
@@ -7,6 +6,11 @@
     <meta name="viewport" content="width=device-width" />
     <link href="../../Resources/Index.css" type="text/css" rel="stylesheet" />
     <title></title>
+    <script>
+        function valuecheck(check) {
+            check.value = "1";
+        }
+    </script>
 </head>
 <body>
     
@@ -53,8 +57,10 @@
                         <!--<td style="color:red">%=ViewBag.Items[1]%></td>    -->
                     </tr>
                     <tr>
-                        <td><h2> Publico </h2> </td>
-                        <td><input type="text" name="CatPublic" /> </td>
+                        <!--<td><h2> Publico </h2> </td>-->
+                        <td></td>
+                        <td><input type="checkbox" name="CatPub" onclick="valuecheck(this)">Publico<td>
+                        <!--<td><input type="text" name="CatPublic" /> </td>-->
                         <!--<td style="color:red">%=ViewBag.Items[0]%></td> -->   
                     </tr>
                 </table>

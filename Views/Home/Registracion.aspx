@@ -7,7 +7,12 @@
     <meta name="viewport" content="width=device-width" />
     <link href="../../Resources/Index.css" type="text/css" rel="stylesheet" />
     <title></title>
-</head>
+    <script  src="jquery.js"></script>
+    <script>
+        var index = $('#List').get(0).selectedIndex;
+        $('#List option:eq(' + index + ')').remove();
+    </script>
+    </head>
 <body>
     
     <div>
@@ -33,7 +38,7 @@
 
             </div>
             <div id="CC">              
-                <% using(Html.BeginForm("Registracion","Home"))
+                <% using(Html.BeginForm("Registracion2","Home"))
                 {%>
                 <h2><%=ViewBag.Message%></h2>
  
@@ -46,7 +51,12 @@
                     </tr>
                     <tr>
                         <td><h2> Tipo </h2> </td>
-                        <td><input type="text" name="UserType" /> </td>
+                        <td><select id="List" name="UserType" onChange ="hide">
+                                <option value="0" disabled="disabled" selected="selected">Tipo de Usuario</option>
+                                <option value="1" onclick="hide">Administrador</option>
+                                <option value="2" onclick="hide">Moderador</option>
+                                <option value="3" onclick="hide">Usuario Comun</option>
+                            </select> </td>
                         <td style="color:red"><%=ViewBag.Items[1]%></td>  
                     </tr>
                     <tr>

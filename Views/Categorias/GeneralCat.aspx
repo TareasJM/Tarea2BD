@@ -1,6 +1,11 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage"%>  
 <%@ Import Namespace="Tarea2BD.Models" %>
-<% int n = (int)ViewData["TCount"];%>
+<% int n = (int)ViewData["TCount"];
+   string cat = Session["CatName"].ToString();
+   Categorias categorias = new Categorias();
+   List<Topics> topics = new List<Topics>();
+   Topics top = new Topics();
+   topics = top.getAllTopicsByCatID(categorias.getIDCatName(cat));%>
 
 <!DOCTYPE html>
 
@@ -45,14 +50,39 @@
             <div id="CI">
                 <%if(!Session["UserIDG"].Equals(4) )
                   {%>
-                <li><%:Html.ActionLink("Nuevo Topic","NuevoTopic","Categorias")%></li>
+                
+                <li><%:Html.ActionLink("Nuevo Topic", "NuevoTopic", "Categorias", new { cat = cat},null)%></li>
                 <%} %>
             </div>
-            <div id="CC">              
+            <div id="CC">  
+                   
                      <%for (int i = 0; i < n; i++ )
-                       {%>
-                        <li><%:Html.ActionLink((string)ViewBag.Items[i], "GeneralTop", "Categorias",new {},new { name = (string)ViewBag.Items[i]})%> </li>
-                    <% }%>
+                       {
+                        if(!Session["UserIDG"].Equals(4) || topics[i].publico.Equals(0))    
+                        { %>    
+                           
+                        <table  style="margin:auto; padding-top:30px" >
+                        <tr>
+                            <td><%:Html.ActionLink((string)ViewBag.Items[i], "GeneralTop", "Categorias",new {name = (string)ViewBag.Items[i]},new { @class = "boton"})%></td>
+                        
+                        <%if (Session["UserIDG"].Equals(1) || Session["UserIDG"].Equals(2))
+                        {%>
+                            
+                                <td><%:Html.ActionLink("Eliminar","EliminarTop","Categorias",new { name = (string)ViewBag.Items[i] }, new { @class = "boton" })%></td>
+                            <%}%>
+                            </tr>  
+                          </table>                  
+                        <%}
+                          else if(Session["UserIDG"].Equals(4) && topics[i].publico.Equals(1))
+                          { %>  
+                             
+                            <table  style="margin:auto; padding-top:30px" >
+                                <tr>
+                                    <td><%:Html.ActionLink((string)ViewBag.Items[i], "GeneralTop", "Categorias",new {name = (string)ViewBag.Items[i]},new { @class = "boton"})%></td>  
+                                </tr>
+                            </table>
+                            
+                    <% }}%>
 
 
             </div>

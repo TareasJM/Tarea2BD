@@ -18,18 +18,11 @@
 
                 <div id="BH">
                     <ul>
-                         <%if( Session["User"] == null)
-                        {%>
-                        <li><%:Html.ActionLink("Home","Index","Home")%></li>
-                        <li><%:Html.ActionLink("Login","Login","Home")%></li>
-                        <li><%:Html.ActionLink("Register","Registracion","Home")%></li>
-                        <% }%>
-                        <%else
-                          {%>
+
                         <li><%:Html.ActionLink("Home","UserIn","Home")%></li>
                         <li><%:Html.ActionLink((string)Session["User"],"MiPerfil","Home")%></li>
                         <li><%:Html.ActionLink("Logout","Logout","Home")%></li>
-                        <%}%>
+                        
                     </ul>
                 </div> 
 
@@ -42,24 +35,25 @@
 
         <div id="content">
             <div id="CI">
-                <%if(!Session["UserIDG"].Equals(4))
-                  {%>
-                    <li><%:Html.ActionLink("Nuevo Topic","NuevoTopic","Categorias")%></li>
-                <%} %>
+                
             </div>
             <div id="CC">    
-                 <%using(Html.BeginForm("Comentar2","Categorias"))
+                 <%using(Html.BeginForm("EnviarMP","Home"))
                    {%>
-                   
-                    <textarea style=" border: 1px solid black; margin-top:50px; resize:none; width:90%; height:75px; position:static" name="Mensaje"></textarea>
+                    
                    
                     <table style="margin:auto">
                         <tr>
-                            <input type="hidden" name="idtopic" value=<%=ViewData["IDTopic"].ToString()%> />
-                            <input type="hidden" name="idutopic" value=<%=ViewData["TopicIDU"].ToString()%>
-                            <td><input type="submit" value="Send" class="boton" /></td>
-                            <!--<td><Html.ActionLink("Send", "Comentar2", "Categorias", new { id = (int)ViewData["IDTopic"] }, new {@class = "boton"})%></td>-->
-                            <!-- poner foto -->                   
+                            <td><h2>Titulo: <input type="text" name="title" placeholder="Titulo"/></h2></td> 
+                        </tr>
+                    </table>
+                    <textarea style=" border: 1px solid black; margin-top:10px; resize:none; width:90%; height:75px; position:static" name="Mensaje"></textarea>
+                    <table style="margin:auto">
+                        <tr>
+                            <td><h2>Para: <input type="text" name="Destinatario" value="<%=(string)ViewBag.name%>"/></h2></td>             
+                        </tr>
+                        <tr>
+                            <td><input type="submit" value="Send" class="boton" /></td>                                    
                         </tr>
                     </table>           
                <%} %>

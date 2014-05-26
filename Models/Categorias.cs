@@ -78,9 +78,9 @@ namespace Tarea2BD.Models
 
         public int getIDCatName(string name)
         {
-            String sql = "Select id_category From Category where name_category like '%{0}%'";
+            String sql = "Select id_category From Category where name_category = '"+name+"'";
             int id = 0;
-            MessageBox.Show("nombre = " + name);
+   
             using (SqlConnection connection = BD.getConnection())
             {
                 SqlCommand Comando = new SqlCommand(string.Format(sql,name), connection);

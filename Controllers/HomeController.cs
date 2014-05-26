@@ -17,12 +17,24 @@ namespace Tarea2BD.Controllers
             string items = "Pass doesn´t match";
             ViewBag.Items = items;
             Session["UserIDG"] = 4;
+            Session["UserID"] = 0;
+            Session["User"] = null;
             return View();
         }
- 
+
         public ActionResult Registracion()
         {
-            G_User gu = new G_User();
+            ViewBag.Message = "Formulario de Registro";
+            List<string> items = new List<string>();
+            items.Add("Pass doesn´t match");
+            items.Add("Complete camp");
+            ViewBag.Items = items;
+            return View();
+        }
+
+        public ActionResult Registracion2()
+        {
+            //G_User gu = new G_User();
             int retorno = 0;
             ViewBag.Message = "Formulario de Registro";
             List<string> items = new List<string>();
@@ -30,22 +42,27 @@ namespace Tarea2BD.Controllers
             items.Add("Complete camp");
             ViewBag.Items = items;
             string user = (string)Request["UserName"];
-            string type = (string)Request["UserType"];
+            int id_group = int.Parse(Request["UserType"]);
             string pass = (string)Request["PassUser"];
             string rpass = (string)Request["RPass"];
             string born = (string)Request["UserBorn"];
             string sex = (string)Request["UserSex"];
             string url = (string)Request["UserAvatar-Url"];
-            int cero = 0;
-            int id_group = gu.getIDGUser(type);
+            DateTime thisDay = DateTime.Today;
+            string date = thisDay.ToString("d");
+            //int id_group = gu.getIDGUser(type);
             String sql = "Insert into users (id_group,name,pass,n_comment,a_url,born,sex,date_r) "
             + "values  ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}')";
+            String sql2 = "Insert into inbox (id_user,messages_in,messages_out)"
+                + "values ('{0}','{1}','{2}')";
+
+            User u = new User();
 
             if (user != null && pass != null)
             {
                 using (SqlConnection connection = BD.getConnection())
                 {
-                    SqlCommand Comando = new SqlCommand(string.Format(sql,id_group,user,pass,cero,url,born,sex,born), connection);
+                    SqlCommand Comando = new SqlCommand(string.Format(sql,id_group,user,pass,0,url,born,sex,date), connection);
 
                     retorno = Comando.ExecuteNonQuery();
                     connection.Close();
@@ -53,8 +70,16 @@ namespace Tarea2BD.Controllers
                 }
                 if (retorno > 0)
                 {
+                    u = u.getUser(user);
+          
+                    using (SqlConnection connection = BD.getConnection())
+                    {
+                        SqlCommand Comando = new SqlCommand(string.Format(sql2, u.id, 0, 0), connection);
+                        retorno = Comando.ExecuteNonQuery();
+                        connection.Close();
+                    }
                     MessageBox.Show("Cliente Guardado Con Exito!!", "Guardado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return Redirect("UserIn");
+                    return Redirect("Login");
                 }
                 else
                 {
@@ -74,7 +99,8 @@ namespace Tarea2BD.Controllers
         public ActionResult Logout()
         {
             Session["User"] = null;
-            Session["UserIDG"] = null;
+            Session["UserID"] = 0;
+            Session["UserIDG"] = 4;
             return Redirect("Index");
         }
 
@@ -92,17 +118,93 @@ namespace Tarea2BD.Controllers
             string pass = (string)Request["PassUser"];       
             User user = new User();
             user = user.getUser(name);
-
             Session["User"] = name;
             Session["UserID"] = user.id;
             Session["UserIDG"] = user.id_group;
-            if (!user.name.Equals(name) && !user.pass.Equals(pass))
+
+            if (!user.name.Equals(name) || !user.pass.Equals(pass))
             {
                 MessageBox.Show("Usuario o Pass no Coinciden", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return Redirect("Login");
             }
-            MessageBox.Show("Bienvenido " + name , "Welcome", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            return Redirect("UserIn");
+
+            else
+            {
+                MessageBox.Show("Bienvenido " + name, "Welcome", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return Redirect("UserIn");
+            }
+           
+        }
+
+        [HttpGet]
+        public ActionResult MP(string name)
+        {   
+            ViewBag.Message = "Mensaje Privado";
+            ViewBag.name = name;
+            return View();
+        }
+
+
+        public ActionResult EnviarMP()
+        {
+            ViewBag.Message = "Mensaje Privado";
+            User user = new User();
+            Inbox inbox = new Inbox();
+            int retorno = 0;
+            string message = (string)Request["Mensaje"];
+            string title = (string)Request["title"];
+            string destiny = (string)Request["Destinatario"];
+            int origen = (int)Session["UserID"];
+            user = user.getUser(destiny);
+            inbox = inbox.getInbox(user.id);
+            DateTime thisDay = DateTime.Today;
+            string date = thisDay.ToString();
+            String sql = "Insert into mp (id_userfrom,id_inbox,title,check_read,messages,date_send)"
+             + "values ('{0}','{1}','{2}','{3}','{4}','{5}')";
+            MessageBox.Show("inbox.id = " + inbox.id);
+            using (SqlConnection connection = BD.getConnection())
+            {
+                SqlCommand Comando = new SqlCommand(string.Format(sql, origen, inbox.id,title, 0, message, date), connection);
+
+                retorno = Comando.ExecuteNonQuery();
+                connection.Close();
+
+            }
+            if (retorno > 0)
+            {
+                
+                MessageBox.Show("Mensaje Enviado Con Exito!!", "Enviado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return Redirect("UserIn");
+            }
+            else
+            {
+                MessageBox.Show("No se pudo enviar el Mensaje", "Fallo!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+            }
+            return Redirect("MP"); ;
+        }
+
+        public ActionResult Inbox()
+        {
+            ViewBag.Message = "Inbox";
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult VerMP(int id)
+        {
+            ViewBag.Message = "Inbox";
+            MP mp = new MP();
+            mp = mp.getMPByID(id);
+            User user = new User();
+            user = user.getUserID(mp.id_from); 
+            List<string> items = new List<string>();
+            items.Add(mp.title);
+            items.Add(mp.date_send);
+            items.Add(mp.msg);
+            items.Add(user.name);
+            ViewBag.Items = items;
+            return View();
         }
 
         public ActionResult Tema()
@@ -115,8 +217,49 @@ namespace Tarea2BD.Controllers
         public ActionResult Categorias()
         {
             ViewBag.Message = "Categorias";
-            List<String> ListCat = new List<String>();
+         
             return View();
+        }
+
+        public ActionResult EditarPerfil()
+        {          
+            int? id_group = int.Parse(Request["UserType"]);
+            string user = (string)Request["UserName"];
+            string pass = (string)Request["PassUser"];
+            string rpass = (string)Request["RPass"];
+            string born = (string)Request["UserBorn"];
+            string url = (string)Request["UserAvatar-Url"];
+            String sql;
+            int retorno = 0;
+            if(Session["UserIDG"].Equals(1))
+            {
+                 sql = "Update Users set id_group ='"+id_group+"', pass = '"+pass+"',"+
+                "born = '"+born+"' , a_url = '" +url+"' where name = '"+user+"'";
+            }
+            else
+            {
+                 sql = "Update Users set pass = '"+pass+"',"+"born = '"+born+"' ,"+ 
+                     "a_url = '" +url+"' where name = '"+user+"'";
+            }
+                using (SqlConnection connection = BD.getConnection())
+                {
+                    SqlCommand Comando = new SqlCommand(string.Format(sql), connection);
+
+                    retorno = Comando.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+                if (retorno > 0)
+                {                 
+                    MessageBox.Show("Perfil Editado Con Exito!!", "Editado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return Redirect("UserIn");
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo editar el Perfil", "Fallo!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                }            
+            return Redirect("MiPerfil");
         }
 
         public ActionResult MiPerfil()
@@ -126,9 +269,11 @@ namespace Tarea2BD.Controllers
             return View();
         }
 
-        public ActionResult VerPerfil(int id)
+        [HttpGet]
+        public ActionResult VerPerfil(string name,int id)
         {
             ViewData["VerPerfilID"] = id;
+            ViewBag.Message = "Perfil de " + name;
             return View();
         }
 

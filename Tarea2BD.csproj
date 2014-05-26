@@ -42,6 +42,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.SqlServer.ManagedConnections, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="MySql.Data, Version=6.8.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
@@ -170,7 +171,6 @@
     <Compile Include="Controllers\AddUser.cs" />
     <Compile Include="Controllers\CategoriasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\JuegosController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -180,6 +180,8 @@
     <Compile Include="Models\Categorias.cs" />
     <Compile Include="Models\Comments.cs" />
     <Compile Include="Models\G_User.cs" />
+    <Compile Include="Models\Inbox.cs" />
+    <Compile Include="Models\MP.cs" />
     <Compile Include="Models\Topics.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -259,14 +261,12 @@
     <Content Include="Views\Categorias\Comentar.aspx" />
     <Content Include="Views\Categorias\GeneralCat.aspx" />
     <Content Include="Views\Categorias\GeneralTop.aspx" />
-    <Content Include="Views\Categorias\h.aspx" />
-    <Content Include="Views\Categorias\Hombres.aspx" />
-    <Content Include="Views\Categorias\Juegos.aspx" />
-    <Content Include="Views\Categorias\Mujeres.aspx" />
     <Content Include="Views\Categorias\NuevaCategoria.aspx" />
     <Content Include="Views\Categorias\NuevoTopic.aspx" />
-    <Content Include="Views\Categorias\Porno.aspx" />
+    <Content Include="Views\Home\Inbox.aspx" />
     <Content Include="Views\Home\Login.aspx" />
+    <Content Include="Views\Home\MP.aspx" />
+    <Content Include="Views\Home\VerMP.aspx" />
     <Content Include="Views\Home\VerPerfil.aspx" />
     <Content Include="Views\Juegos\LOL.aspx" />
     <Content Include="Views\Home\Categorias.aspx" />

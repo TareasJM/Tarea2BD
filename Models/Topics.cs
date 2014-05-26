@@ -17,13 +17,12 @@ namespace Tarea2BD.Models
         public string name { get; set; }
         public string descripcion { get; set; }
         public string mensaje { get; set; }
-        public int n_comentarios { get; set; }
         public int publico { get; set; }
 
         public List<Topics> getAllTopicsByCatID(int id)
         {
             List<Topics> ListTop = new List<Topics>();
-            String sql = "Select *From Topic where id_catTopic like '%{0}%'";
+            String sql = "Select *From Topic where id_catTopic = '"+id.ToString()+"'";
 
             using (SqlConnection connection = BD.getConnection())
             {
@@ -40,8 +39,7 @@ namespace Tarea2BD.Models
                     top.name = reader.GetString(3);
                     top.descripcion = reader.GetString(4);
                     top.mensaje = reader.GetString(5);
-                    top.n_comentarios = reader.GetInt32(6);
-                    top.publico = reader.GetInt32(7);
+                    top.publico = reader.GetInt32(6);
                     ListTop.Add(top);
                 }
             }
@@ -69,8 +67,7 @@ namespace Tarea2BD.Models
                     top.name = reader.GetString(3);
                     top.descripcion = reader.GetString(4);
                     top.mensaje = reader.GetString(5);
-                    top.n_comentarios = reader.GetInt32(6);
-                    top.publico = reader.GetInt32(7);
+                    top.publico = reader.GetInt32(6);
                     ListTop.Add(top);
                 }
             }
@@ -81,7 +78,7 @@ namespace Tarea2BD.Models
 
         public Topics getTopicsByName(string name)
         {
-            String sql = "Select *From Topic where nameTopic like '%{0}%'";
+            String sql = "Select *From Topic where nameTopic = '"+name+"'";
             Topics top = new Topics();
             using (SqlConnection connection = BD.getConnection())
             {
@@ -96,9 +93,8 @@ namespace Tarea2BD.Models
                     top.id_user = reader.GetInt32(2);
                     top.name = reader.GetString(3);
                     top.descripcion = reader.GetString(4);
-                    top.mensaje = reader.GetString(5);
-                    top.n_comentarios = reader.GetInt32(6);
-                    top.publico = reader.GetInt32(7);
+                    top.mensaje = reader.GetString(5);        
+                    top.publico = reader.GetInt32(6);
 
                 }
             }

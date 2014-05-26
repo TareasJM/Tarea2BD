@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.SqlClient;
+using System.Windows.Forms;
 using Tarea2BD.Models;
 
 namespace Tarea2BD.Models
@@ -28,11 +29,12 @@ namespace Tarea2BD.Models
 
         public List<Comments> getAllCommentByIDTopic(int id)
         {
-            String sql = "Select *From Comments where id_topic like '%{0}%'";
+
+            String sql = "Select *From Comments where id_topic = '"+id.ToString()+"'";
             List<Comments> Comments = new List<Comments>();
             using (SqlConnection connection = BD.getConnection())
             {
-                SqlCommand Comando = new SqlCommand(string.Format(sql,id), connection);
+                SqlCommand Comando = new SqlCommand(string.Format(sql), connection);
 
                 SqlDataReader reader = Comando.ExecuteReader();
                 while (reader.Read())
@@ -47,6 +49,8 @@ namespace Tarea2BD.Models
             }
             return Comments;
         }
+
+        
 
     }
 }
