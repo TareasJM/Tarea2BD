@@ -37,10 +37,6 @@ namespace Tarea2BD.Controllers
             //G_User gu = new G_User();
             int retorno = 0;
             ViewBag.Message = "Formulario de Registro";
-            List<string> items = new List<string>();
-            items.Add("Pass doesn´t match");
-            items.Add("Complete camp");
-            ViewBag.Items = items;
             string user = (string)Request["UserName"];
             int id_group = int.Parse(Request["UserType"]);
             string pass = (string)Request["PassUser"];

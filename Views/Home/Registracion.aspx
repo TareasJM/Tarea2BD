@@ -80,7 +80,6 @@
                     <tr>
                         <td><h2> User </h2> </td>
                         <td><input type="text" name="UserName" /> </td>
-                        <td style="color:red"><%=ViewBag.Items[1]%></td>  
                     </tr>
                     <tr>
                         <td><h2> Tipo </h2> </td>
@@ -90,32 +89,27 @@
                                 <option value="2" >Moderador</option>
                                 <option value="3" >Usuario Comun</option>
                             </select> </td>
-                        <td style="color:red"><%=ViewBag.Items[1]%></td>  
+                        
                     </tr>
                     <tr>
                         <td><h2> Pass </h2></td>
                         <td><input type="password" name="PassUser" id="PassUser"/> </td>
-                        <td style="color:red"><%=ViewBag.Items[1]%></td>    
                     </tr>
                     <tr>
                         <td><h2> R-Pass </h2> </td>
                         <td><input type="password" name="PassUserR" id="PassUserR"/> </td>
-                        <td style="color:red"><%=ViewBag.Items[0]%></td>    
                     </tr>
                     <tr>
                         <td><h2> Born </h2> </td>
                         <td><input  type="text" name="UserBorn" id="UserBorn"/> </td>
-                        <td style="color:red"><%=ViewBag.Items[1]%></td>    
                     </tr>
                     <tr>
                         <td><h2> Sex </h2> </td> 
                         <td> <input  type="text" name="UserSex" id="UserSex"/> </td>
-                        <td style="color:red"><%=ViewBag.Items[1]%></td>    
                     </tr>
                     <tr>
                         <td><h2> A-Url </h2> </td>
                         <td><input type="text" name="UserAvatar-Url" id="UserAvatar-Url"/> </td>
-                        <td style="color:red"><%=ViewBag.Items[1]%></td>    
                     </tr>
                  
                 </table>
