@@ -44,45 +44,43 @@ namespace Tarea2BD.Controllers
             string born = (string)Request["UserBorn"];
             string sex = (string)Request["UserSex"];
             string url = (string)Request["UserAvatar-Url"];
-            DateTime thisDay = DateTime.Today;
-            string date = thisDay.ToString("d");
+            DateTime thisDay = DateTime.Now;
+            string date = thisDay.ToString();
             //int id_group = gu.getIDGUser(type);
-            String sql = "Insert into users (id_group,name,pass,n_comment,a_url,born,sex,date_r) "
+            String sql = "Insert into Users (id_group,name,pass,n_comment,a_url,born,sex,date_r) "
             + "values  ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}')";
             String sql2 = "Insert into inbox (id_user,messages_in,messages_out)"
                 + "values ('{0}','{1}','{2}')";
 
             User u = new User();
 
-            if (user != null && pass != null)
+            using (SqlConnection connection = BD.getConnection())
             {
+                SqlCommand Comando = new SqlCommand(string.Format(sql,id_group,user,pass,0,url,born,sex,date), connection);
+
+                retorno = Comando.ExecuteNonQuery();
+                connection.Close();
+
+            }
+            if (retorno > 0)
+            {
+                u = u.getUser(user);
+          
                 using (SqlConnection connection = BD.getConnection())
                 {
-                    SqlCommand Comando = new SqlCommand(string.Format(sql,id_group,user,pass,0,url,born,sex,date), connection);
-
+                    SqlCommand Comando = new SqlCommand(string.Format(sql2, u.id, 0, 0), connection);
                     retorno = Comando.ExecuteNonQuery();
                     connection.Close();
-
                 }
-                if (retorno > 0)
-                {
-                    u = u.getUser(user);
-          
-                    using (SqlConnection connection = BD.getConnection())
-                    {
-                        SqlCommand Comando = new SqlCommand(string.Format(sql2, u.id, 0, 0), connection);
-                        retorno = Comando.ExecuteNonQuery();
-                        connection.Close();
-                    }
-                    MessageBox.Show("Cliente Guardado Con Exito!!", "Guardado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return Redirect("Login");
-                }
-                else
-                {
-                    MessageBox.Show("No se pudo guardar el cliente", "Fallo!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
-                }
+                MessageBox.Show("Cliente Guardado Con Exito!!", "Guardado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return Redirect("Login");
             }
+            else
+            {
+                MessageBox.Show("No se pudo guardar el cliente", "Fallo!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+            }
+            
             return Redirect("Registracion");
         }
 
