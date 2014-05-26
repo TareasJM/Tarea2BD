@@ -1,4 +1,6 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage" %>
+<%@ Import Namespace ="Tarea2BD.Models"%>
+<%  // aqui getTodasCategorias() %>
 <!DOCTYPE html>
 
 <html>
@@ -9,6 +11,30 @@
     <script>
         function valuecheck(check) {
             check.value = "1";
+        }
+
+         function validateForm() {
+            var CatName = document.getElementById("CatName").value;
+            var CatDes = document.getElementById("CatDes").value;
+
+            if (CatName.length < 4) {
+                alert("Error: Nombre de categoria muy corto (min 4)!");
+                retun false;
+            };
+            
+            if (CatDes != "") {
+                alert("Error: Debe tener descripción!");
+                return false;
+            };
+
+            for (var i = categorias.length - 1;i >= 0; i--) {
+                if (CatName == categorias[i]) {
+                    alert("Error: Debe tener descripción!");
+                    return false;
+                };
+            };
+
+            return true; // return false to cancel form action
         }
     </script>
 </head>
@@ -38,34 +64,27 @@
             <div id="CI">
 
             </div>
-            <div id="CC">   
-                <!-- acccion, controlador -->           
-                <% using(Html.BeginForm("MakeCat","Categorias")) 
-                {%>
-                <h2><%=ViewBag.Message%></h2>
- 
-                <table style="margin:auto; position:static" >
-                    
-                    <tr>
-                        <td><h2> Nombre </h2> </td>
-                        <td><input type="text" name="CatName" /> </td>
-                        <!--<td style="color:red">%=ViewBag.Items[1]%></td>  -->
-                    </tr>
-                    <tr>
-                        <td><h2> Descripcion </h2></td>
-                        <td><input type="text" name="CatDes" /> </td>
-                        <!--<td style="color:red">%=ViewBag.Items[1]%></td>    -->
-                    </tr>
-                    <tr>
-                        <!--<td><h2> Publico </h2> </td>-->
-                        <td></td>
-                        <td><input type="checkbox" name="CatPub" onclick="valuecheck(this)">Publico<td>
-                        <!--<td><input type="text" name="CatPublic" /> </td>-->
-                        <!--<td style="color:red">%=ViewBag.Items[0]%></td> -->   
-                    </tr>
-                </table>
-                    <input type="submit" value="Send"/>
-               <%}%>
+            <div id="CC">  
+                <form action="/Categorias/MakeCat" method="post" onsubmit="return validateForm()">
+                    <h2><%=ViewBag.Message%></h2>
+     
+                    <table style="margin:auto; position:static" >
+                        
+                        <tr>
+                            <td><h2> Nombre </h2> </td>
+                            <td><input type="text" name="CatName" id="CatName" /> </td>
+                        </tr>
+                        <tr>
+                            <td><h2> Descripcion </h2></td>
+                            <td><input type="text" name="CatDes" id="CatDes" /> </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><input type="checkbox" name="CatPub" onclick="valuecheck(this)">Publico<td>
+                        </tr>
+                    </table>
+                        <input type="submit" value="Send"/>
+                </form>
             </div>
 
             <div id="CD">
