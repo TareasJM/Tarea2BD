@@ -1,4 +1,4 @@
-<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage" %>
 
 <!DOCTYPE html>
 
@@ -73,10 +73,9 @@
 
             </div>
             <div id="CC">              
-                <% using(Html.BeginForm("Registracion2","Home", new{@id = "regForm"}))
-                {%>
+                
                 <h2><%=ViewBag.Message%></h2>
- 
+                <form id="regForm" action="/Home/Registracion2" method="post">
                 <table style="margin:auto; position:static" >
                     
                     <tr>
@@ -87,10 +86,10 @@
                     <tr>
                         <td><h2> Tipo </h2> </td>
                         <td><select id="List" name="UserType" onChange ="hide">
-                                <option value="0" disabled="disabled" selected="selected">Tipo de Usuario</option>
-                                <option value="1" onclick="hide">Administrador</option>
-                                <option value="2" onclick="hide">Moderador</option>
-                                <option value="3" onclick="hide">Usuario Comun</option>
+                                <option disabled selected style="display:none">Tipo de Usuario</option>
+                                <option value="1" >Administrador</option>
+                                <option value="2" >Moderador</option>
+                                <option value="3" >Usuario Comun</option>
                             </select> </td>
                         <td style="color:red"><%=ViewBag.Items[1]%></td>  
                     </tr>
@@ -122,7 +121,8 @@
                  
                 </table>
                     <input type="submit" value="Send"/>
-               <%}%>
+                </form>
+               
             </div>
 
             <div id="CD">
