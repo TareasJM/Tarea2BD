@@ -10,9 +10,8 @@ namespace Tarea2BD.Models
     public class ViewTemas
     {
         public int id_topic;
-        public int id_user;
-        public int id_comment;
         public string nameTopic;
+        public int id_user;    
         public string nameUser;
 
         public ViewTemas()
@@ -35,9 +34,8 @@ namespace Tarea2BD.Models
 
                     ViewTemas view = new ViewTemas();
                     view.id_topic = reader.GetInt32(0);
-                    view.id_user = reader.GetInt32(1);
-                    view.id_comment = reader.GetInt32(2);
-                    view.nameTopic = reader.GetString(3);
+                    view.nameTopic = reader.GetString(1);
+                    view.id_user = reader.GetInt32(2);
                     view.nameUser = reader.GetString(3);
                     views.Add(view);
                 }

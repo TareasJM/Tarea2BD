@@ -34,11 +34,11 @@ namespace Tarea2BD.Models
                 {
 
                     ViewComments view = new ViewComments();
-                    view.id_topic = reader.GetInt32(0);
+                    view.nameTopic = reader.GetString(0);
                     view.id_user = reader.GetInt32(1);
-                    view.id_comment = reader.GetInt32(2);
-                    view.nameTopic = reader.GetString(3);
-                    view.nameUser = reader.GetString(3);
+                    view.nameUser = reader.GetString(2);
+                    view.id_comment = reader.GetInt32(3);
+                    view.id_topic = reader.GetInt32(4);
                     views.Add(view);
                 }
             }

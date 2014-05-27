@@ -73,18 +73,20 @@
                 </table>    
                     <h2> Ultimos 5 Temas Creados </h2> 
                 <table style="margin:auto; position:static" >
-                    <%for(int i =0; i < 5; i++)
+                    <%for(int i =0; i < viewts.Count; i++)
                       { %>
                         <tr>
+                            <td></td>
                             <td><input  type="text" value="<%=viewts[i].nameTopic%>" readonly/> </td>  
                         </tr>
                      <%} %>
                 </table>
                 <h2> Ultimos 5 Comentarios  </h2> 
                 <table style="margin:auto; position:static" >
-                    <%for(int i =0; i < 5; i++)
+                    <%for(int i =0; i < views.Count; i++)
                       { %>
                         <tr>
+                            <td></td>
                             <td><input  type="text" value="<%=views[i].nameTopic%>" readonly/> </td>  
                         </tr>
                      <%} %>
