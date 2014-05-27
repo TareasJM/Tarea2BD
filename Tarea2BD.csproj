@@ -184,6 +184,7 @@
     <Compile Include="Models\MP.cs" />
     <Compile Include="Models\Topics.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\ViewTemas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

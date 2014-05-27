@@ -127,7 +127,7 @@ namespace Tarea2BD.Models
         public List<string> getAllNamesTopic()
         {
             List<string> ListTopic = new List<string>();
-            String sql = "Select name_Topic From Topic order by id_Topic";
+            String sql = "Select nameTopic From Topic order by id_Topic";
 
             using (SqlConnection connection = BD.getConnection())
             {
@@ -137,11 +137,11 @@ namespace Tarea2BD.Models
                 while (reader.Read())
                 {
                     string top = reader.GetString(0);
-                    ListTop.Add(top);
+                    ListTopic.Add(top);
                 }
             }
 
-            return ListTop;
+            return ListTopic;
         }
 
     }//class

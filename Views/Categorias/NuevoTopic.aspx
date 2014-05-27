@@ -36,7 +36,7 @@
 
             for (var i = names.length - 1;i >= 0; i--) {
                 if (TopicName == names[i]) {
-                    alert("Error: Categoria Existente");
+                    alert("Error: Topic Existente");
                     return false;
                 };
             };
@@ -83,10 +83,11 @@
                             <td><h2> Descripcion </h2></td>
                             <td><input type="text" name="TopicDes" id="TopicDes"/> </td>
                         </tr>
-                        <tr>
-                            <td><h2> Mensaje </h2></td>
-                            <td><input type="text" name="TopicMsg" id="TopicMsg"/> </td>
-                        </tr>
+                      
+                    </table>
+                    <h2> Mensaje </h2>
+                    <textarea style=" margin:auto; resize:none; width:90%; height:75px; border:1px solid black; position:static" name="TopicMsg" id="TopicMsg" ></textarea>
+                    <table style="margin:auto; position:static" >   
                         <tr>
                             <td></td>
                             <td><input type="checkbox" name="TopicPub" onclick="valuecheck(this)">Publico<td> 
