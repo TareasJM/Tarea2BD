@@ -1,5 +1,8 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage" %>
+<%@ Import Namespace ="Tarea2BD.Models" %>
 <% string cat = ViewData["CatName2"].ToString();%>
+<% User user = new User();
+   user = user.getUserID((int)Session["UserID"]); %>
 <!DOCTYPE html>
 
 <html>
@@ -55,7 +58,7 @@
                 <div id="BH">
                     <ul>
                         <li><%:Html.ActionLink("Home","UserIn","Home")%></li>
-                        <li><%:Html.ActionLink((string)Session["User"],"MiPerfil","Home")%></li>
+                        <li><%:Html.ActionLink((string)Session["User"], "MiPerfil", "Home")%></li>                      
                         <li><%:Html.ActionLink("Logout","Logout","Home")%></li>
                     </ul>
                 </div> 

@@ -149,12 +149,14 @@ namespace Tarea2BD.Controllers
             string title = (string)Request["title"];
             string destiny = (string)Request["Destinatario"];
             int origen = (int)Session["UserID"];
+            MessageBox.Show("DESTINO = " + Request["Destinatario"].ToString());
             if (!user.Checkuser(destiny))
             {
                 MessageBox.Show("No Existe Usuario Destino", "Invalido", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return Redirect("MP");
             }
             user = user.getUser(destiny);
+            MessageBox.Show("USER ID = " + user.id);
             inbox = inbox.getInbox(user.id);           
             DateTime thisDay = DateTime.Now;
             string date = thisDay.ToString();
@@ -204,6 +206,19 @@ namespace Tarea2BD.Controllers
             items.Add(mp.msg);
             items.Add(user.name);
             ViewBag.Items = items;
+            String sql = "Update  MP set check_read = '1' where id_message = '" + id + "'";
+            int retorno = 0;
+            using (SqlConnection connection = BD.getConnection())
+            {
+                SqlCommand Comando = new SqlCommand(string.Format(sql), connection);
+                retorno = Comando.ExecuteNonQuery();
+                connection.Close();
+                if (retorno > 0)
+                {
+                    MessageBox.Show("mensaje leido");
+                }
+
+            }
             return View();
         }
 

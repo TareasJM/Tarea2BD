@@ -3,6 +3,8 @@
 <%  Categorias cat = new Categorias();
     List<Categorias> categorias = new List<Categorias>();
     categorias = cat.getAllCategories();%>
+<% User user = new User();
+   user = user.getUserID((int)Session["UserID"]); %>
 <!DOCTYPE html>
 
 <html>
@@ -29,7 +31,7 @@
                         <%else
                           {%>
                         <li><%:Html.ActionLink("Home","UserIn","Home")%></li>
-                        <li><%:Html.ActionLink((string)Session["User"],"MiPerfil","Home")%></li>
+                        <li><%:Html.ActionLink((string)Session["User"], "MiPerfil", "Home")%></li> 
                         <li><%:Html.ActionLink("Logout","Logout","Home")%></li>
                         <%}%>
                     </ul>

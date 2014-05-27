@@ -1,7 +1,13 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage" %>
 <%@ Import Namespace="Tarea2BD.Models" %>
 <%  User user = new User();
-    user = user.getUser((string)Session["User"]);%>
+    user = user.getUser((string)Session["User"]);
+    List<ViewComments> views = new List<ViewComments>();
+    ViewComments view = new ViewComments();
+    views = view.GetMadeComments(user.id);
+    List<ViewTemas> viewts = new List<ViewTemas>();
+    ViewTemas viewt = new ViewTemas();
+    viewts = viewt.GetMadeTopics(user.id);%>
 <!DOCTYPE html>
 
 <html>
@@ -20,7 +26,7 @@
                 <div id="BH">
                     <ul>
                         <li><%:Html.ActionLink("Home","UserIn","Home")%></li>
-                        <li><%:Html.ActionLink((string)Session["User"],"MiPerfil","Home")%></li>
+                        <li><%:Html.ActionLink((string)Session["User"], "MiPerfil", "Home")%></li>
                         <li><%:Html.ActionLink("Logout","Logout","Home")%></li>
                     </ul>
                 </div> 
@@ -37,8 +43,7 @@
 
             </div>
             <div id="CC">              
-                <% using(Html.BeginForm("EditarPerfil","Home"))
-                {%>
+
                 <h2><%=ViewBag.Message%></h2>
  
                 <table style="margin:auto; position:static" >
@@ -46,34 +51,51 @@
                       {%>
                     <tr>
                         <td><h2> Tipo </h2> </td>
-                        <td><input type="text" name="UserType" value="<%=user.name%>"/> </td>
+                        <td><input type="text" name="UserType" value="<%=user.name%>" readonly/> </td>
                     </tr>
                     <%} %>
                     <tr>
                         <td><h2> Pass </h2> </td>
-                        <td><input type="text" name="PassUser" value="<%=user.name%>"/> </td>
+                        <td><input type="text" name="PassUser" value="<%=user.name%>" readonly/> </td>
                     </tr>
                     <tr>
                         <td><h2> R-Pass </h2> </td>
-                        <td><input  type="text" name="RPass" value="<%=user.born%>"/> </td>  
+                        <td><input  type="text" name="RPass" value="<%=user.born%>" readonly/> </td>  
                     </tr>
                     <tr>
                         <td><h2> Born </h2> </td> 
-                        <td> <input  type="text" name="UserBorn" value="<%=user.sex%>"/> </td>  
+                        <td> <input  type="text" name="UserBorn" value="<%=user.sex%>" readonly/> </td>  
                     </tr>
                     <tr>
                         <td><h2> A-Url </h2> </td>
-                        <td><input type="text" name="UserAvatar-Url" value="<%=user.a_url%>"/> </td>  
+                        <td><input  type="text" name="UserAvatar-Url" value="<%=user.a_url%>" readonly/> </td>  
                     </tr>
-
+                </table>    
+                    <h2> Ultimos 5 Temas Creados </h2> 
+                <table style="margin:auto; position:static" >
+                    <%for(int i =0; i < 5; i++)
+                      { %>
+                        <tr>
+                            <td><input  type="text" value="<%=viewts[i].nameTopic%>" readonly/> </td>  
+                        </tr>
+                     <%} %>
                 </table>
-                <input type="hidden" name="UserName" value="<%=user.name%>" />
-                <input  type="submit" value="Guardar"/>  
-               <%}%>
+                <h2> Ultimos 5 Comentarios  </h2> 
+                <table style="margin:auto; position:static" >
+                    <%for(int i =0; i < 5; i++)
+                      { %>
+                        <tr>
+                            <td><input  type="text" value="<%=views[i].nameTopic%>" readonly/> </td>  
+                        </tr>
+                     <%} %>
+                </table>
+
             </div>
 
             <div id="CD">
-
+                <li><%:Html.ActionLink("Editar Perfil", "VerPerfil", "Home", new { id = user.id, name = user.name}, new { @class = "boton2" })%> </li>
+                <li><%:Html.ActionLink("Enviar MP", "MP", "Home", new { name = "Destinatario"})%></li>
+                <li><%:Html.ActionLink("Bandeja de Entrada","Inbox","Home")%></li>
             </div>
 
             <div id="footer">

@@ -1,5 +1,7 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage" %>
-
+<%@ Import Namespace ="Tarea2BD.Models" %>
+<% User user = new User();
+   user = user.getUserID((int)Session["UserID"]); %>
 <!DOCTYPE html>
 
 <html>

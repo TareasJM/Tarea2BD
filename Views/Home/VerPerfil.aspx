@@ -23,7 +23,7 @@
                         <%if(!Session["UserIDG"].Equals(4))
                         {%>
                         <li><%:Html.ActionLink("Home","UserIn","Home")%></li>
-                        <li><%:Html.ActionLink((string)Session["User"],"MiPerfil","Home")%></li>
+                        <li><%:Html.ActionLink((string)Session["User"], "MiPerfil", "Home")%></li>
                         <li><%:Html.ActionLink("Logout","Logout","Home")%></li>
                         <%} %>
                         <%else 

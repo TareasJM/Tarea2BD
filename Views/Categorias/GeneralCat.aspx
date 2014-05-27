@@ -6,7 +6,8 @@
    List<Topics> topics = new List<Topics>();
    Topics top = new Topics();
    topics = top.getAllTopicsByCatID(categorias.getIDCatName(cat));%>
-
+<% User user = new User();
+   user = user.getUserID((int)Session["UserID"]); %>
 <!DOCTYPE html>
 
 <html>
@@ -33,7 +34,7 @@
                         <%else
                           {%>
                         <li><%:Html.ActionLink("Home","UserIn","Home")%></li>
-                        <li><%:Html.ActionLink((string)Session["User"],"MiPerfil","Home")%></li>
+                        <li><%:Html.ActionLink((string)Session["User"], "MiPerfil", "Home")%></li>
                         <li><%:Html.ActionLink("Logout","Logout","Home")%></li>
                         <%}%>
                     </ul>

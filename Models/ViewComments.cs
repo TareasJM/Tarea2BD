@@ -21,7 +21,7 @@ namespace Tarea2BD.Models
 
         }
 
-        public List<ViewComments> GetMadeTopics(int id)
+        public List<ViewComments> GetMadeComments(int id)
         {
             List<ViewComments> views = new List<ViewComments>();
             String sql = "Select TOP 5 *From VIEW_ULTIMOS_COMENTARIOS where id_user = '" + id + "' ORDER BY id_comment DESC";
