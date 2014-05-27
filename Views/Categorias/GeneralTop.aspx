@@ -69,7 +69,7 @@
                 <table style="margin:auto">
                     <tr>
                         <td style="padding-right: 10px">Comentarios: <%=Comments.Count%>   </td>
-
+                        <td><img src="<%=user.a_url%>" height="50" width="50" /> </td>
                         <td style="padding-right: 10px">Autor:  <%:Html.ActionLink(user.name, "VerPerfil", "Home", new { id = user.id, name = user.name}, new { @class = "boton2" })%>  </td>
                         <!-- poner foto --> 
                          <%if(!Session["UserIDG"].Equals(4))
@@ -97,7 +97,8 @@
                         </tr>
                     </table>
                     <table style="margin:auto; padding-bottom:20px">
-                        <tr>                            
+                        <tr> 
+                            <td style="padding-right: 10px"><img src="<%=user.a_url%>" height="50" width="50" />   </td>                           
                             <td style="padding-right: 10px">Autor: <%:Html.ActionLink(user.name, "VerPerfil", "Home", new { id = user.id, name = user.name}, new { @class = "boton2" })%></td>
                             <%if (Session["UserIDG"].Equals(1) || Session["UserIDG"].Equals(2) || Comments[i].id_user.Equals(Session["UserID"]))
                           {%>

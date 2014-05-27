@@ -49,6 +49,7 @@
             <div id="CC">              
                 
                 <h2><%=ViewBag.Message%></h2>
+                <img src="<%=user.a_url%>" height="100" width="150" /> 
                 <% using(Html.BeginForm("EditarPerfil","Home"))
                 {%>
                  <%if(Session["UserIDG"].Equals(1))  

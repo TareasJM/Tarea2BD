@@ -45,7 +45,7 @@
             <div id="CC">              
 
                 <h2><%=ViewBag.Message%></h2>
- 
+                <img src="<%=user.a_url%>" height="100" width="100" />   
                 <table style="margin:auto; position:static" >
                     <%if(Session["UserIDG"].Equals(1))  
                       {%>
@@ -95,7 +95,7 @@
             </div>
 
             <div id="CD">
-                <li><%:Html.ActionLink("Editar Perfil", "VerPerfil", "Home", new { id = user.id, name = user.name}, new { @class = "boton2" })%> </li>
+                <li><%:Html.ActionLink("Editar Perfil", "VerPerfil", "Home", new { id = user.id, name = user.name}, new {})%> </li>
                 <li><%:Html.ActionLink("Enviar MP", "MP", "Home", new { name = "Destinatario"})%></li>
                 <li><%:Html.ActionLink("Bandeja de Entrada","Inbox","Home")%></li>
             </div>
