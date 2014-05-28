@@ -19,22 +19,32 @@ namespace Tarea2BD.Controllers
             Session["UserIDG"] = 4;
             Session["UserID"] = 0;
             Session["User"] = null;
+            Session["CatName"] = null;
+            Session["TopicName"] = null;
+
             return View();
         }
 
         public ActionResult Registracion()
         {
+            Session["UserIDG"] = Session["UserIDG"];
+            Session["UserID"] = Session["UserID"];
+            Session["User"] = Session["User"];
             ViewBag.Message = "Formulario de Registro";
-            List<string> items = new List<string>();
-            items.Add("Pass doesn´t match");
-            items.Add("Complete camp");
-            ViewBag.Items = items;
+            User users = new User();
+            List<string> names = users.getAllUsersNames();
+            ViewBag.Items = names;
+            ViewBag.Serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
             return View();
         }
 
         public ActionResult Registracion2()
         {
             //G_User gu = new G_User();
+            
+            Session["UserIDG"] = Session["UserIDG"];
+            Session["UserID"] = Session["UserID"];
+            Session["User"] = Session["User"];
             int retorno = 0;
             ViewBag.Message = "Formulario de Registro";
             string user = (string)Request["UserName"];
@@ -87,6 +97,16 @@ namespace Tarea2BD.Controllers
         public ActionResult Login()
         {
             ViewBag.Message = "Login";
+            Session["UserIDG"] = Session["UserIDG"];
+            Session["UserID"] = Session["UserID"];
+            Session["User"] = Session["User"];
+            User users = new User();
+            List<string> names = users.getAllUsersNames();
+            List<string> passes = users.getAllUsersPass();
+            ViewBag.Items = names;
+            ViewBag.items2 = passes;
+            ViewBag.Serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            ViewBag.Serializer2 = new System.Web.Script.Serialization.JavaScriptSerializer();
             return View();
         }
 
@@ -107,40 +127,51 @@ namespace Tarea2BD.Controllers
         public ActionResult UserIn2()
         {
             ViewBag.Message = "Mi cuenta";
-            ViewBag.Items = "Complete Camp";
             string name = (string)Request["UserName"];
-            string pass = (string)Request["PassUser"];       
+            string pass = (string)Request["PassUser"];
             User user = new User();
             user = user.getUser(name);
             Session["User"] = name;
             Session["UserID"] = user.id;
             Session["UserIDG"] = user.id_group;
-
-            if (!user.name.Equals(name) || !user.pass.Equals(pass))
-            {
-                MessageBox.Show("Usuario o Pass no Coinciden", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return Redirect("Login");
-            }
-
-            else
-            {
-                MessageBox.Show("Bienvenido " + name, "Welcome", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return Redirect("UserIn");
-            }
-           
+            //MessageBox.Show("Bienvenido " + user.name,"Wellcome" ,MessageBoxButtons.OK);
+            return Redirect("UserIn");
         }
 
         [HttpGet]
-        public ActionResult MP(string name)
+        public ActionResult MP(string name, string title)
         {   
             ViewBag.Message = "Mensaje Privado";
+            Session["UserIDG"] = Session["UserIDG"];
+            Session["UserID"] = Session["UserID"];
+            Session["User"] = Session["User"];
             ViewBag.name = name;
+            ViewBag.Asunto = title;
+            User users = new User();
+            List<string> names = users.getAllUsersNames();
+            ViewBag.Items = names;
+            ViewBag.Serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult ResponderMP(string name, string title)
+        {
+            ViewBag.Message = "Mensaje Privado";
+            Session["UserIDG"] = Session["UserIDG"];
+            Session["UserID"] = Session["UserID"];
+            Session["User"] = Session["User"];
+            ViewBag.name = name;
+            ViewBag.Asunto = title;
             return View();
         }
 
 
         public ActionResult EnviarMP()
         {
+            Session["UserIDG"] = Session["UserIDG"];
+            Session["UserID"] = Session["UserID"];
+            Session["User"] = Session["User"];
             ViewBag.Message = "Mensaje Privado";
             User user = new User();
             Inbox inbox = new Inbox();
@@ -189,6 +220,9 @@ namespace Tarea2BD.Controllers
         public ActionResult Inbox()
         {
             ViewBag.Message = "Inbox";
+            Session["UserIDG"] = Session["UserIDG"];
+            Session["UserID"] = Session["UserID"];
+            Session["User"] = Session["User"];
             return View();
         }
 
@@ -196,6 +230,9 @@ namespace Tarea2BD.Controllers
         public ActionResult VerMP(int id)
         {
             ViewBag.Message = "Inbox";
+            Session["UserIDG"] = Session["UserIDG"];
+            Session["UserID"] = Session["UserID"];
+            Session["User"] = Session["User"];
             MP mp = new MP();
             mp = mp.getMPByID(id);
             User user = new User();
@@ -206,6 +243,10 @@ namespace Tarea2BD.Controllers
             items.Add(mp.msg);
             items.Add(user.name);
             ViewBag.Items = items;
+            if (mp.check.Equals(1))
+            {
+                return View();
+            }
             String sql = "Update  MP set check_read = '1' where id_message = '" + id + "'";
             int retorno = 0;
             using (SqlConnection connection = BD.getConnection())
@@ -215,35 +256,49 @@ namespace Tarea2BD.Controllers
                 connection.Close();
                 if (retorno > 0)
                 {
-                    MessageBox.Show("mensaje leido");
+                    
                 }
 
             }
             return View();
         }
 
-        public ActionResult Tema()
-        {
-            ViewBag.Message = "Nuevo Tema";
-
-            return View();
-        }
 
         public ActionResult Categorias()
         {
             ViewBag.Message = "Categorias";
-         
+            Session["UserIDG"] = Session["UserIDG"];
+            Session["UserID"] = Session["UserID"];
+            Session["User"] = Session["User"];
             return View();
         }
 
-        public ActionResult EditarPerfil()
-        {          
-            int? id_group = int.Parse(Request["UserType"]);
+        public ActionResult EditarPerfil(string name, int id)
+        {
+            Session["UserIDG"] = Session["UserIDG"];
+            Session["UserID"] = Session["UserID"];
+            Session["User"] = Session["User"];
+            ViewData["VerPerfilID"] = id;
+            ViewBag.Message = "Perfil de " + name;
+            return View();
+        }
+
+
+        public ActionResult EditarPerfil2()
+        {
+            Session["UserIDG"] = Session["UserIDG"];
+            Session["UserID"] = Session["UserID"];
+            Session["User"] = Session["User"];
+            int id_group = 0;
+            if (Session["UserIDG"].Equals(1))
+            {
+                id_group = int.Parse(Request["UserType"]);
+            }
             string user = (string)Request["UserName"];
             string pass = (string)Request["PassUser"];
-            string rpass = (string)Request["RPass"];
             string born = (string)Request["UserBorn"];
             string url = (string)Request["UserAvatar-Url"];
+            int id_veedor = int.Parse(Request["IDVeedor"]);
             String sql;
             int retorno = 0;
             if(Session["UserIDG"].Equals(1))
@@ -267,43 +322,41 @@ namespace Tarea2BD.Controllers
                 if (retorno > 0)
                 {                 
                     MessageBox.Show("Perfil Editado Con Exito!!", "Editado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return Redirect("UserIn");
                 }
                 else
                 {
                     MessageBox.Show("No se pudo editar el Perfil", "Fallo!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
-                }            
-            return Redirect("MiPerfil");
+                }           
+            if(id_veedor.Equals(Session["UserID"]))
+            {
+                return Redirect("MiPerfil");
+            }
+            else
+            {
+                return RedirectToAction("VerPerfil", new { name = user, id = id_veedor });
+            }
         }
 
         public ActionResult MiPerfil()
         {
             ViewBag.Message = "Mi Perfil";
-
+            Session["UserIDG"] = Session["UserIDG"];
+            Session["UserID"] = Session["UserID"];
+            Session["User"] = Session["User"];
             return View();
         }
 
         [HttpGet]
         public ActionResult VerPerfil(string name,int id)
         {
+            Session["UserIDG"] = Session["UserIDG"];
+            Session["UserID"] = Session["UserID"];
+            Session["User"] = Session["User"];
             ViewData["VerPerfilID"] = id;
             ViewBag.Message = "Perfil de " + name;
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Página de descripción de la aplicación.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Página de contacto.";
-
-            return View();
-        }
     }
 }

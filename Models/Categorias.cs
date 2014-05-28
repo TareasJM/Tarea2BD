@@ -45,7 +45,7 @@ namespace Tarea2BD.Models
                     cat.id_categoria = reader.GetInt32(0);
                     cat.name = reader.GetString(1);
                     cat.descripcion = reader.GetString(2);
-                    //cat.publico = reader.GetInt32(3);
+                    cat.publico = reader.GetInt32(3);
                    
 
                     ListCat.Add(cat);
@@ -108,7 +108,7 @@ namespace Tarea2BD.Models
                 while (reader.Read())
                 {
                     
-                    string cat = reader.GetString(0);
+                    string cat = reader.GetString(0).ToUpper();
                     ListCat.Add(cat);
                 }
             }

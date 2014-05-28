@@ -38,7 +38,7 @@
             };
 
             for (var i = names.length - 1;i >= 0; i--) {
-                if (TopicName == names[i]) {
+                if (TopicName.toUpperCase() == names[i]) {
                     alert("Error: Topic Existente");
                     return false;
                 };
@@ -102,7 +102,8 @@
             </div>
 
             <div id="CD">
-
+                     
+                <li><%:Html.ActionLink("Back", "GeneralCat", "Categorias", new { name = Session["CatName"] }, new { })%></li>
             </div>
 
             <div id="footer">

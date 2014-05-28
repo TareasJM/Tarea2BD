@@ -59,7 +59,7 @@
                    
                      <%for (int i = 0; i < n; i++ )
                        {
-                        if(!Session["UserIDG"].Equals(4) || topics[i].publico.Equals(0))    
+                        if(!Session["UserIDG"].Equals(4))    
                         { %>    
                            
                         <table  style="margin:auto; padding-top:30px" >
@@ -89,7 +89,7 @@
             </div>
 
             <div id="CD">
-                
+                <li><a href="/Home/Categorias">Back</a></li>
             </div>
 
             <div id="footer">

@@ -114,5 +114,60 @@ namespace Tarea2BD.Models
             return false;
         }
 
+        public List<string> getAllUsersNames()
+        {
+            String sql = "Select name From Users order by id_user";
+            List<string> users = new List<string>();
+            using (SqlConnection connection = BD.getConnection())
+            {
+                SqlCommand Comando = new SqlCommand(string.Format(sql), connection);
+
+                SqlDataReader reader = Comando.ExecuteReader();
+                while (reader.Read())
+                {
+                    string user = reader.GetString(0).ToUpper();
+                    users.Add(user);
+                }
+            }
+            return users;
+        }
+
+        public List<string> getAllUsersPass()
+        {
+            String sql = "Select pass From Users order by id_user";
+            List<string> users = new List<string>();
+            using (SqlConnection connection = BD.getConnection())
+            {
+                SqlCommand Comando = new SqlCommand(string.Format(sql), connection);
+
+                SqlDataReader reader = Comando.ExecuteReader();
+                while (reader.Read())
+                {
+
+                    string pass = reader.GetString(0);
+                    users.Add(pass);
+                }
+            }
+            return users;
+        }
+
+
+        public bool checkUserAndPass(string name, string pass)
+        {
+            String sql = "Select name, pass From Users where name = '" + name + "' and pass = '"+pass+"'";
+            int retorno = 0;
+            using (SqlConnection connection = BD.getConnection())
+            {
+                SqlCommand Comando = new SqlCommand(string.Format(sql), connection);
+                retorno = Comando.ExecuteNonQuery();
+                if (retorno > 0)
+                {
+                    return true;
+                }
+                
+            }
+            return false;
+        }
+
     }
 }

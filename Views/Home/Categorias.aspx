@@ -56,7 +56,7 @@
                    
                             <%for (int i = 0; i < categorias.Count; i++ )
                             {
-                            if(!Session["UserIDG"].Equals(4) || categorias[i].publico.Equals(0))    
+                            if(!Session["UserIDG"].Equals(4))    
                             { %>
                             
                             <table style="margin:auto; padding-top:30px" >
@@ -77,6 +77,7 @@
                                 </tr>
                            </table>
                             <%} %>    
+
                     <% }}%>
 
             </div>
@@ -85,8 +86,16 @@
                 <% if(Session["UserIDG"].Equals(1))
                     { %>
                         <li><%:Html.ActionLink("Nueva Categoria","NuevaCategoria","Categorias")%></li>
-                    <%} %>  
-
+                        <li><a href="/Home/UserIn">Back</a></li>
+                    <%} 
+                    else if(!Session["UserIDG"].Equals(4))
+                        {%>
+                        <li><a href="/Home/UserIn">Back</a></li>
+                    <%} 
+                      else
+                      {%>
+                        <li><a href="/Home/Index">Back</a></li>
+                    <%} %>
             </div>
 
             <div id="footer">

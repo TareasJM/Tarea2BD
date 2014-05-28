@@ -12,36 +12,14 @@
     <script  src="jquery.js"></script>
     <script type="text/ecmascript">
         function validateForm() {
-            var Asunto = document.getElementById("Asunto").value;
+ 
             var Mensaje = document.getElementById("Mensaje").value;
-            var Destinatario = document.getElementById("Destinatario").value;
-            var names = <%=ViewBag.Serializer.Serialize(ViewBag.Items)%>; 
-
-            if (Asunto.length < 5) {
-                alert("Error: Asunto Muy Corto");
-                return false;
-            };
             
             if (Mensaje.length == 0) {
                 alert("Error: Escriba Algo Para Enviar Mensaje");
                 return false;
             };
-            if (Mensaje.length < 15) {
-                alert("Error: Mensaje muy corto");
-                return false;
-            };
-            var i = 0;
-            while(Destinatario.toUpperCase() != names[i])
-            {
-                
-                if(i == names.length-1)
-                {
-                    alert("Error: No Existe Destinatario");
-                    return false;
-                };
-                i++;
-            };
-
+            
             return true; // return false to cancel form action
         }
     </script>
@@ -76,22 +54,22 @@
             </div>
             <div id="CC">    
                 <form id="regForm" action="/Home/EnviarMP" method="post" onsubmit="return validateForm()">
-                
+
                     <table style="margin:auto">
                         <tr>
-                            <td><h2>Asunto: <input type="text" name="title"  value="<%=(string)ViewBag.Asunto%>" id="Asunto"/></h2></td> 
+                            <td><h2>Asunto: <input type="text" name="title"  value="<%=(string)ViewBag.Asunto%>" readonly/></h2></td> 
                         </tr>
                     </table>
                     <textarea style=" border: 1px solid black; margin-top:10px; resize:none; width:90%; height:75px; position:static" name="Mensaje" id="Mensaje"></textarea>
                     <table style="margin:auto">
                         <tr>
-                            <td><h2>Para: <input type="text" name="Destinatario" value="<%=(string)ViewBag.name%>" id="Destinatario"/></h2></td>             
+                            <td><h2>Para: <input type="text" name="Destinatario" value="<%=(string)ViewBag.name%>" readonly/></h2></td>             
                         </tr>
                         <tr>
                             <td><input type="submit" value="Send" class="boton" /></td>                                    
                         </tr>
                     </table>           
-               </form>
+              </form>
             </div>
 
             <div id="CD">

@@ -31,7 +31,7 @@
             };
 
             for (var i = names.length - 1;i >= 0; i--) {
-                if (CatName == names[i]) {
+                if (CatName.toUpperCase() == names[i]) {
                     alert("Error: Categoria Existente");
                     return false;
                 };
@@ -100,7 +100,7 @@
             </div>
 
             <div id="CD">
-
+                <li><a href="/Home/Categorias">Back</a></li>
             </div>
 
             <div id="footer">

@@ -53,7 +53,7 @@
                     <tr>                      
                         <td style="padding-right: 10px">Autor: <%:Html.ActionLink(user.name, "VerPerfil", "Home", new { id = user.id, name = user.name}, new { @class = "boton2" })%></td>
                         <!-- poner foto --> 
-                        <td><%:Html.ActionLink("Responder", "MP" ,"Home", new {name = (string)ViewBag.Items[3]},new { @class = "boton2"})%></td>
+                        <td><%:Html.ActionLink("Responder", "ResponderMP" ,"Home", new {title=(string)ViewBag.Items[0], name = (string)ViewBag.Items[3]},new { @class = "boton2"})%></td>
                         <td><%:Html.ActionLink("Eliminar", "EliminarMP", "Home", new { }, new { @class = "boton2" })%></td>
 
                         
@@ -63,7 +63,7 @@
             </div>
 
             <div id="CD">
-
+                <li><a href="/Home/Inbox">Back</a></li>
             </div>
 
             <div id="footer">

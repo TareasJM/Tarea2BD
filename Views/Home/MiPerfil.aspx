@@ -56,7 +56,7 @@
                     <%} %>
                     <tr>
                         <td><h2> Pass </h2> </td>
-                        <td><input type="text" name="PassUser" value="<%=user.name%>" readonly/> </td>
+                        <td><input type="text" name="PassUser" value="<%=user.pass%>" readonly/> </td>
                     </tr>
                     <tr>
                         <td><h2> R-Pass </h2> </td>
@@ -95,9 +95,10 @@
             </div>
 
             <div id="CD">
-                <li><%:Html.ActionLink("Editar Perfil", "VerPerfil", "Home", new { id = user.id, name = user.name}, new {})%> </li>
+                <li><%:Html.ActionLink("Editar Perfil", "EditarPerfil", "Home", new { id = user.id, name = user.name}, new {})%> </li>
                 <li><%:Html.ActionLink("Enviar MP", "MP", "Home", new { name = "Destinatario"})%></li>
                 <li><%:Html.ActionLink("Bandeja de Entrada","Inbox","Home")%></li>
+                <li><a href="/Home/UserIn">Back</a></li>
             </div>
 
             <div id="footer">

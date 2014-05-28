@@ -113,7 +113,8 @@
             </div>
 
             <div id="CD">
-                
+                 <li><%:Html.ActionLink("Back", "GeneralCat", "Categorias", new {name = Session["CatName"]}, new {})%></li>
+
             </div>
 
             <div id="footer">

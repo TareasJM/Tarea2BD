@@ -136,7 +136,7 @@ namespace Tarea2BD.Models
                 SqlDataReader reader = Comando.ExecuteReader();
                 while (reader.Read())
                 {
-                    string top = reader.GetString(0);
+                    string top = reader.GetString(0).ToUpper();
                     ListTopic.Add(top);
                 }
             }

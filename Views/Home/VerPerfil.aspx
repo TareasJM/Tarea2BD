@@ -1,7 +1,16 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage" %>
 <%@ Import Namespace="Tarea2BD.Models" %>
 <%  User user = new User();
-    user = user.getUserID((int)ViewData["VerPerfilID"]);%>
+    user = user.getUserID((int)ViewData["VerPerfilID"]);
+    List<ViewComments> views = new List<ViewComments>();
+    ViewComments view = new ViewComments();
+    views = view.GetMadeComments(user.id);
+    List<ViewTemas> viewts = new List<ViewTemas>();
+    ViewTemas viewt = new ViewTemas();
+    viewts = viewt.GetMadeTopics(user.id);
+    string[] split = user.born.Split('/');
+    int edad = 2014 - int.Parse(split.Last());
+    %>
 <!DOCTYPE html>
 
 <html>
@@ -50,64 +59,69 @@
                 
                 <h2><%=ViewBag.Message%></h2>
                 <img src="<%=user.a_url%>" height="100" width="150" /> 
-                <% using(Html.BeginForm("EditarPerfil","Home"))
-                {%>
-                 <%if(Session["UserIDG"].Equals(1))  
-                      {%>
-                <table style="margin:auto; position:static" >
-                   
-                    <tr>
-                        <td><h2> Tipo </h2> </td>
-                        <td><input type="text" name="UserType" value="<%=user.id_group%>"/> </td>
-                    </tr>
-                    
-                    <tr>
-                        <td><h2> User </h2> </td>
-                        <td><input  type="text" name="UserName" value="<%=user.name%>"/> </td>
-                    </tr>
-                    <tr>
-                        <td><h2> Born </h2> </td>
-                        <td><input  type="text" name="UserBorn" value="<%=user.born%>"/> </td>  
-                    </tr>
-                    <tr>
-                        <td><h2> Sex </h2> </td> 
-                        <td> <input  type="text" name="UserSex" value="<%=user.sex%>"/> </td>  
-                    </tr>
-                    <tr>
-                        <td><h2> A-Url </h2> </td>
-                        <td><input type="text" name="UserAvatar-Url" value="<%=user.a_url%>"/> </td>  
-                    </tr>
-            </table>
-                <input type="hidden" name="UserName" value="<%=user.name%>" />
-                <input  type="submit" value="Editar"/>  
-                    <%}
-                      } 
-                      if(!Session["UserIDG"].Equals(1))
-                      {%>
                  <table style="margin:auto; position:static" >
                     <tr>
                         <td><h2> User </h2> </td>
                         <td><input  type="text" name="UserName" value="<%=user.name%>" readonly/> </td>
                     </tr>
                     <tr>
-                        <td><h2> Born </h2> </td>
-                        <td><input  type="text" name="UserBorn" value="<%=user.born%>" readonly/> </td>  
+                        <td><h2> Age </h2> </td>
+                        <td><input  type="text" name="UserBorn" value="<%=edad%>" readonly/> </td>  
                     </tr>
                     <tr>
                         <td><h2> Sex </h2> </td> 
                         <td> <input  type="text" name="UserSex" value="<%=user.sex%>" readonly/> </td>  
+                    </tr>
+                     <tr>
+                        <td><h2> N_Comments </h2> </td> 
+                        <td> <input  type="text" name="UserSex" value="<%=user.comments%>" readonly/> </td>  
                     </tr>
                     <tr>
                         <td><h2> A-Url </h2> </td>
                         <td><input type="text" name="UserAvatar-Url" value="<%=user.a_url%>" readonly/> </td>  
                     </tr>
                 </table>
-                    <%} %>
-
+                <h2> Ultimos 5 Temas Creados </h2> 
+                <table style="margin:auto; position:static" >
+                    <%for(int i =0; i < viewts.Count; i++)
+                      { %>
+                        <tr>
+                            <td></td>
+                            <td><input  type="text" value="<%=viewts[i].nameTopic%>" readonly/> </td>  
+                        </tr>
+                     <%} %>
+                </table>
+                <h2> Ultimos 5 Comentarios  </h2> 
+                <table style="margin:auto; position:static" >
+                    <%for(int i =0; i < views.Count; i++)
+                      { %>
+                        <tr>
+                            <td></td>
+                            <td><input  type="text" value="<%=views[i].nameTopic%>" readonly/> </td>  
+                        </tr>
+                     <%} %>
+                </table>
             </div>
 
             <div id="CD">
-
+                  <%if(Session["UserIDG"].Equals(1))
+                  {%>
+                    <li><%:Html.ActionLink("Editar Perfil", "EditarPerfil", "Home", new { id = user.id, name = user.name}, new {})%> </li>
+                <%} %>
+                <%if (Session["CatName"] != null && Session["TopicName"] == null)
+                  {%>
+                    <li><%:Html.ActionLink("Back", "Categorias", "Home")%></li>
+                   <%} %>   
+                   <%if (Session["TopicName"] != null)
+                     {%>
+                        <li><%:Html.ActionLink("Back", "GeneralTop", "Categorias", new { name = Session["TopicName"] }, new { })%></li>
+                      
+                    <%} 
+                     else
+                     {%>
+                        <li><a href="/Home/UserIn">Back</a></li>
+                    <%}%>
+              
             </div>
 
             <div id="footer">

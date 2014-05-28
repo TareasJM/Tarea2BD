@@ -10,18 +10,35 @@
     <link href="../../Resources/Index.css" type="text/css" rel="stylesheet" />
     <title></title>
     <script  src="jquery.js"></script>
-    <script>
+    <script type="text/ecmascript">
         function validateForm() {
+            var names = <%=ViewBag.Serializer.Serialize(ViewBag.Items)%>; 
             var User = document.getElementById("UserName").value;
             var PassUser = document.getElementById("PassUser").value;
             var PassUserR = document.getElementById("PassUserR").value;
+            var UserType = document.getElementById("UserType");
+            var strUserType = UserType.options[UserType.selectedIndex].value;
             var UserBorn = document.getElementById("UserBorn").value;
-            var UserSex = document.getElementById("UserSex").value;
+            var UserSex = document.getElementById("UserSex");
+            var strUserSex = UserSex.options[UserSex.selectedIndex].value;
             var UserAvatar = document.getElementById("UserAvatar-Url").value;
 
             if (UserName.length < 4) {
                 alert("Error: Nombre de Usuario muy corto (min 4)!");
-                retun false;
+                return false;
+            };
+
+            for (var i = names.length - 1;i >= 0; i--) {
+               
+                if (User.toUpperCase() == names[i]) {
+                    alert("Error: Usuario Existente");
+                    return false;
+                };
+            };
+
+            if (strUserType == "0") {
+                alert("Error: Elija un tipo de usuario");
+                return false;
             };
 
             if (PassUser != PassUserR) {
@@ -34,18 +51,20 @@
                 return false;
             };
 
+        
+           
             re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
-            if (UserBorn == '' || UserBorn.match(re)) {
+            if (UserBorn == '' || !UserBorn.match(re)) {
                 alert("Error: Fecha no valida (DD/MM/AAAA)!");
                 return false;
             };
 
-            if (PassSex != "H" && PassSex != "M") {
-                alert("Error: Sexo no valido (H | M)!");
+            if (strUserSex == "0") {
+                alert("Error: Elija Sexo");
                 return false;
             };
 
-            if (UserAvatar.match(/\.(jpeg|jpg|gif|png)$/) == null) {
+            if (UserAvatar.match(/(jpeg|jpg|gif|png)/g) == null) {
                 alert("Error: Url no valida!");
                 return false;
             };
@@ -91,8 +110,8 @@
                     </tr>
                     <tr>
                         <td><h2> Tipo </h2> </td>
-                        <td><select id="List" name="UserType" onChange ="hide">
-                                <option disabled selected style="display:none">Tipo de Usuario</option>
+                        <td><select id="UserType" name="UserType">
+                                <option value="0" disabled selected style="display:none">Tipo de Usuario</option>
                                 <option value="1" >Administrador</option>
                                 <option value="2" >Moderador</option>
                                 <option value="3" >Usuario Comun</option>
@@ -112,8 +131,12 @@
                         <td><input  type="text" name="UserBorn" id="UserBorn"/> </td>
                     </tr>
                     <tr>
-                        <td><h2> Sex </h2> </td> 
-                        <td> <input  type="text" name="UserSex" id="UserSex"/> </td>
+                        <td><h2>Sex</h2></td>
+                        <td><select id="UserSex" name="UserSex">
+                                <option value="0" disabled selected style="display:none">Sex</option>
+                                <option value="Male" >Male</option>
+                                <option value="Female" >Female</option>
+                            </select> </td>
                     </tr>
                     <tr>
                         <td><h2> A-Url </h2> </td>
@@ -127,7 +150,7 @@
             </div>
 
             <div id="CD">
-
+                <li><a href="/Home/Index">Back</a></li>
             </div>
 
             <div id="footer">
