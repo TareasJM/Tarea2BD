@@ -81,7 +81,7 @@
                         </tr>
                      <%} %>
                 </table>
-                <h2> Ultimos 5 Comentarios  </h2> 
+                <h2> Ultimos 5 Temas Comentados  </h2> 
                 <table style="margin:auto; position:static" >
                     <%for(int i =0; i < views.Count; i++)
                       { %>
