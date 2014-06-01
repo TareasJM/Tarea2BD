@@ -24,7 +24,7 @@ namespace Tarea2BD.Models
         public List<ViewComments> GetMadeComments(int id)
         {
             List<ViewComments> views = new List<ViewComments>();
-            String sql = "Select TOP 5 *From VIEW_ULTIMOS_COMENTARIOS where id_user = '" + id + "' ORDER BY id_comment DESC";
+            String sql = "Select TOP 5 *From VIEW_ULTIMOS_TEMAS_COMENTADOS where id_user = '" + id + "' ORDER BY id_comment DESC";
             using (SqlConnection connection = BD.getConnection())
             {
                 SqlCommand Comando = new SqlCommand(string.Format(sql, id), connection);
@@ -34,11 +34,12 @@ namespace Tarea2BD.Models
                 {
 
                     ViewComments view = new ViewComments();
-                    view.nameTopic = reader.GetString(0);
-                    view.id_user = reader.GetInt32(1);
-                    view.nameUser = reader.GetString(2);
-                    view.id_comment = reader.GetInt32(3);
-                    view.id_topic = reader.GetInt32(4);
+                    view.id_user = reader.GetInt32(0);
+                    view.nameUser = reader.GetString(1);
+                    view.id_topic = reader.GetInt32(2);
+                    view.nameTopic = reader.GetString(3);  
+                    view.id_comment = reader.GetInt32(4);
+                    
                     views.Add(view);
                 }
             }

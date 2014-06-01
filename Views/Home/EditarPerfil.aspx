@@ -92,7 +92,7 @@
             <div id="CC">              
                 
                 <h2><%=ViewBag.Message%></h2>
-                <img src="<%=user.a_url%>" height="100" width="150" /> 
+                <img src="<%=user.a_url%>" height="100" width="100" /> 
                 <% using(Html.BeginForm("EditarPerfil2","Home"))
                 {%>
                 <table style="margin:auto; position:static" >
@@ -132,15 +132,15 @@
             </div>
 
             <div id="CD">
-                   <%if (Session["TopicName"] != null || Session["CatName"] != null)
+                   <%if (Session["TopicName"] != null && Session["CatName"] != null)
                      {%>
                         <li><%:Html.ActionLink("Back", "GeneralTop", "Categorias", new { name = Session["TopicName"] }, new { })%></li>                     
                     <%} 
-                     else if (Session["TopicName"] == null || Session["CatName"] != null)
+                     else if (Session["TopicName"] == null && Session["CatName"] != null)
                      {%>
                         <li><%:Html.ActionLink("Back", "GeneralCat", "Categorias", new { name = Session["CatName"] }, new { })%></li>                     
                     <%}
-                     else
+                     else if(Session["TopicName"] == null && Session["CatName"] == null)
                      {%>
                         <li><%:Html.ActionLink("Back", "MiPerfil", "Home")%></li>                     
                     <%}%>

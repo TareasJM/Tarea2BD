@@ -22,7 +22,7 @@ namespace Tarea2BD.Models
         public List<Topics> getAllTopicsByCatID(int id)
         {
             List<Topics> ListTop = new List<Topics>();
-            String sql = "Select *From Topic where id_catTopic = '"+id.ToString()+"'";
+            String sql = "Select *From Topic where id_catTopic = '"+id.ToString()+"' order by nameTopic";
 
             using (SqlConnection connection = BD.getConnection())
             {
@@ -127,7 +127,7 @@ namespace Tarea2BD.Models
         public List<string> getAllNamesTopic()
         {
             List<string> ListTopic = new List<string>();
-            String sql = "Select nameTopic From Topic order by id_Topic";
+            String sql = "Select nameTopic From Topic order by nameTopic";
 
             using (SqlConnection connection = BD.getConnection())
             {

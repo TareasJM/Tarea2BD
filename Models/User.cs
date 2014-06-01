@@ -103,7 +103,6 @@ namespace Tarea2BD.Models
                 SqlCommand Comando = new SqlCommand(string.Format(sql), connection);
                 retorno = Comando.ExecuteNonQuery();
                 connection.Close();
-                MessageBox.Show("RETORNO = " + retorno);
                 if (retorno < 0)
                 {
                     return true;

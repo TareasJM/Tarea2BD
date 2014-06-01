@@ -16,6 +16,11 @@
             var User = document.getElementById("UserName").value;
             var Pass = document.getElementById("PassUser").value;
             var i = 0;
+            if(i == names.length)
+            {
+                alert("Error: No Existe Usuario");
+                return false;
+            }
             while(User.toUpperCase() != names[i])
             {
                 

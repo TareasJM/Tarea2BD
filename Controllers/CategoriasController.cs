@@ -14,49 +14,6 @@ namespace Tarea2BD.Controllers
     {
         //
         // GET: /Categorias/
-        [HttpGet]
-        public ActionResult GeneralCat(string name)
-        {
-            Session["UserIDG"] = Session["UserIDG"];
-            Session["UserID"] = Session["UserID"];
-            Session["User"] = Session["User"];
-            Session["CatName"] = name; 
-            Categorias cat = new Categorias();
-            int id = cat.getIDCatName(name);
-            List<Topics> topics = new List<Topics>();
-            Topics top = new Topics();
-            List<string> items = new List<string>();
-            topics = top.getAllTopicsByCatID(id);
-        
-            for (int i = 0; i < topics.Count; i++)
-            {
-               
-                items.Add(topics[i].name);
-      
-            }
-            ViewBag.Items = items;
-            ViewData["TCount"] = topics.Count;
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult GeneralTop(string name)
-        {
-            Session["UserIDG"] = Session["UserIDG"];
-            Session["UserID"] = Session["UserID"];
-            Session["User"] = Session["User"];
-            Session["TopicName"] = name; 
-            Topics top = new Topics();
-            List<string> items = new List<string>();
-            top = top.getTopicsByName(name);
-            items.Add(top.name);
-            items.Add(top.descripcion);
-            items.Add(top.mensaje);
-            ViewData["TopicIDU"] = top.id_user;
-            ViewData["TopicID"] = top.id_topic;
-            ViewBag.Items = items;
-            return View();
-        }
 
         [HttpGet]
         public ActionResult Comentar(int topic, int topicIDU)
@@ -110,7 +67,7 @@ namespace Tarea2BD.Controllers
             MessageBoxButtons button = MessageBoxButtons.YesNoCancel;
             MessageBoxIcon icon = MessageBoxIcon.Question;
             DialogResult result = MessageBox.Show(texto, titulo, button, icon);
-            
+
             if (result.Equals(System.Windows.Forms.DialogResult.Yes))
             {
                 String sql = "Delete from Comments where id_comment = '" + id + "'";
@@ -131,7 +88,7 @@ namespace Tarea2BD.Controllers
                     MessageBox.Show("No se pudo borrar el Comentario", "Fallo!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
-                       
+
             return RedirectToAction("GeneralTop", new { name = Session["TopicName"].ToString() });
 
         }
@@ -142,7 +99,7 @@ namespace Tarea2BD.Controllers
             Session["UserIDG"] = Session["UserIDG"];
             Session["UserID"] = Session["UserID"];
             Session["User"] = Session["User"];
-            
+
             string msg = Microsoft.VisualBasic.Interaction.InputBox("Editar Mensaje:");
             if (msg.Length > 0)
             {
@@ -170,7 +127,7 @@ namespace Tarea2BD.Controllers
             {
                 return RedirectToAction("GeneralTop", new { name = Session["TopicName"].ToString() });
             }
-            
+
 
         }
 
@@ -191,12 +148,12 @@ namespace Tarea2BD.Controllers
             topics = top.getAllTopicsByCatID(id);
             if (result.Equals(System.Windows.Forms.DialogResult.Yes))
             {
-                
+
                 for (int i = 0; i < topics.Count; i++)
                 {
                     if (comments.DeleteCommentsByIDTopic(topics[i].id_topic))
                     {
-                        continue;                 
+                        continue;
                     }
                     else
                     {
@@ -205,7 +162,7 @@ namespace Tarea2BD.Controllers
                 }
                 if (!top.DeleteTopicsByIDCat(id))
                 {
-                    MessageBox.Show("Topic de " + id + "no eliminado");   
+                    MessageBox.Show("Topic de " + id + "no eliminado");
                 }
 
                 String sql = "Delete from Category where id_category = '" + id.ToString() + "'";
@@ -229,28 +186,92 @@ namespace Tarea2BD.Controllers
             return RedirectToAction("Categorias", "Home");
         }
 
-        public ActionResult NuevaCategoria()
+
+        [HttpGet]
+        public ActionResult EliminarTop(string name)
         {
             Session["UserIDG"] = Session["UserIDG"];
             Session["UserID"] = Session["UserID"];
             Session["User"] = Session["User"];
-            ViewBag.Message = "Nueva Categoria";
+            string texto = "Estas seguro de Eliminar el topic?";
+            string titulo = "Eliminar Topic";
+            MessageBoxButtons button = MessageBoxButtons.YesNoCancel;
+            MessageBoxIcon icon = MessageBoxIcon.Question;
+            DialogResult result = MessageBox.Show(texto, titulo, button, icon);
+            Comments comments = new Comments();
+            Topics topic = new Topics();
+            topic = topic.getTopicsByName(name);
+            if (result.Equals(System.Windows.Forms.DialogResult.Yes))
+            {
+                if (!comments.DeleteCommentsByIDTopic(topic.id_topic))
+                {
+                    MessageBox.Show("Comentario de " + topic.id_topic + "no eliminado");
+                    return Redirect("GeneralCat");
+                }
+                String sql = "Delete from Topic where nameTopic = '" + name + "'";
+                int retorno = 0;
+                using (SqlConnection connection = BD.getConnection())
+                {
+                    SqlCommand Comando = new SqlCommand(string.Format(sql), connection);
+                    retorno = Comando.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+                if (retorno > 0)
+                {
+                    MessageBox.Show("Topic Borrado Con Exito!!", "Eliminado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo borrar el Topic", "Fallo!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+            return RedirectToAction("GeneralCat", new { name = Session["CatName"] });
+        }
+
+
+
+        [HttpGet]
+        public ActionResult GeneralCat(string name)
+        {
+            Session["UserIDG"] = Session["UserIDG"];
+            Session["UserID"] = Session["UserID"];
+            Session["User"] = Session["User"];
+            Session["CatName"] = name; 
             Categorias cat = new Categorias();
-            List<string> names = cat.getAllNamesCat();
-            ViewBag.Items = names;
-            ViewBag.Serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            int id = cat.getIDCatName(name);
+            List<Topics> topics = new List<Topics>();
+            Topics top = new Topics();
+            List<string> items = new List<string>();
+            topics = top.getAllTopicsByCatID(id);
+        
+            for (int i = 0; i < topics.Count; i++)
+            {
+               
+                items.Add(topics[i].name);
+      
+            }
+            ViewBag.Items = items;
+            ViewData["TCount"] = topics.Count;
             return View();
         }
 
         [HttpGet]
-        public ActionResult NuevoTopic(string cat)
+        public ActionResult GeneralTop(string name)
         {
-            ViewBag.Message = "Nuevo Topic";
-            ViewData["CatName2"] = cat;
-            Topics topic = new Topics();
-            List<string> names = topic.getAllNamesTopic();
-            ViewBag.Items = names;
-            ViewBag.Serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            Session["UserIDG"] = Session["UserIDG"];
+            Session["UserID"] = Session["UserID"];
+            Session["User"] = Session["User"];
+            Session["TopicName"] = name; 
+            Topics top = new Topics();
+            List<string> items = new List<string>();
+            top = top.getTopicsByName(name);
+            items.Add(top.name);
+            items.Add(top.descripcion);
+            items.Add(top.mensaje);
+            ViewData["TopicIDU"] = top.id_user;
+            ViewData["TopicID"] = top.id_topic;
+            ViewBag.Items = items;
             return View();
         }
 
@@ -264,7 +285,6 @@ namespace Tarea2BD.Controllers
             {
                 pub = 1;
             }
-            MessageBox.Show("check box value = " + pub);
             string name = (string)Request["CatName"];
             string des = (string)Request["CatDes"];
             String sql = "Insert into Category (name_category,descrip,publico) "
@@ -312,7 +332,7 @@ namespace Tarea2BD.Controllers
             int retorno = 0;
             using (SqlConnection connection = BD.getConnection())
             {
-                SqlCommand Comando = new SqlCommand(string.Format(sql,id_cat,id_user, name, des,msg,pub), connection);
+                SqlCommand Comando = new SqlCommand(string.Format(sql, id_cat, id_user, name, des, msg, pub), connection);
 
                 retorno = Comando.ExecuteNonQuery();
                 connection.Close();
@@ -321,7 +341,7 @@ namespace Tarea2BD.Controllers
             if (retorno > 0)
             {
                 MessageBox.Show("Topic Guardado Con Exito!!", "Guardado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return RedirectToAction("GeneralCat",new{name = (string)Request["Cat_name"]});
+                return RedirectToAction("GeneralCat", new { name = (string)Request["Cat_name"] });
             }
             else
             {
@@ -331,46 +351,29 @@ namespace Tarea2BD.Controllers
             return Redirect("NuevoTopic");
         }
 
-        [HttpGet]
-        public ActionResult EliminarTop(string name)
+        public ActionResult NuevaCategoria()
         {
             Session["UserIDG"] = Session["UserIDG"];
             Session["UserID"] = Session["UserID"];
             Session["User"] = Session["User"];
-            string texto = "Estas seguro de Eliminar el topic?";
-            string titulo = "Eliminar Topic";
-            MessageBoxButtons button = MessageBoxButtons.YesNoCancel;
-            MessageBoxIcon icon = MessageBoxIcon.Question;
-            DialogResult result = MessageBox.Show(texto, titulo, button, icon);
-            Comments comments = new Comments();
-            Topics topic = new Topics();
-            topic = topic.getTopicsByName(name);
-            if (result.Equals(System.Windows.Forms.DialogResult.Yes))
-            {
-                    if (!comments.DeleteCommentsByIDTopic(topic.id_topic))
-                    {
-                        MessageBox.Show("Comentario de " + topic.id_topic + "no eliminado");
-                        return Redirect("GeneralCat");
-                    }                
-                String sql = "Delete from Topic where nameTopic = '" + name + "'";
-                int retorno = 0;
-                using (SqlConnection connection = BD.getConnection())
-                {
-                    SqlCommand Comando = new SqlCommand(string.Format(sql), connection);
-                    retorno = Comando.ExecuteNonQuery();
-                    connection.Close();
+            ViewBag.Message = "Nueva Categoria";
+            Categorias cat = new Categorias();
+            List<string> names = cat.getAllNamesCat();
+            ViewBag.Items = names;
+            ViewBag.Serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            return View();
+        }
 
-                }
-                if (retorno > 0)
-                {
-                    MessageBox.Show("Topic Borrado Con Exito!!", "Eliminado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("No se pudo borrar el Topic", "Fallo!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
-            }
-            return RedirectToAction("GeneralCat",new { name = Session["CatName"] });
+        [HttpGet]
+        public ActionResult NuevoTopic(string cat)
+        {
+            ViewBag.Message = "Nuevo Topic";
+            ViewData["CatName2"] = cat;
+            Topics topic = new Topics();
+            List<string> names = topic.getAllNamesTopic();
+            ViewBag.Items = names;
+            ViewBag.Serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            return View();
         }
 
     }

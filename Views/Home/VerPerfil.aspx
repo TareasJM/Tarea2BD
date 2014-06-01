@@ -58,7 +58,7 @@
             <div id="CC">              
                 
                 <h2><%=ViewBag.Message%></h2>
-                <img src="<%=user.a_url%>" height="100" width="150" /> 
+                <img src="<%=user.a_url%>" height="100" width="100" /> 
                  <table style="margin:auto; position:static" >
                     <tr>
                         <td><h2> User </h2> </td>
@@ -91,7 +91,7 @@
                         </tr>
                      <%} %>
                 </table>
-                <h2> Ultimos 5 Comentarios  </h2> 
+                <h2> Ultimos 5 Temas Comentados  </h2> 
                 <table style="margin:auto; position:static" >
                     <%for(int i =0; i < views.Count; i++)
                       { %>
@@ -107,11 +107,7 @@
                   <%if(Session["UserIDG"].Equals(1))
                   {%>
                     <li><%:Html.ActionLink("Editar Perfil", "EditarPerfil", "Home", new { id = user.id, name = user.name}, new {})%> </li>
-                <%} %>
-                <%if (Session["CatName"] != null && Session["TopicName"] == null)
-                  {%>
-                    <li><%:Html.ActionLink("Back", "Categorias", "Home")%></li>
-                   <%} %>   
+                <%} %>  
                    <%if (Session["TopicName"] != null)
                      {%>
                         <li><%:Html.ActionLink("Back", "GeneralTop", "Categorias", new { name = Session["TopicName"] }, new { })%></li>
