@@ -1,0 +1,58 @@
+CREATE TRIGGER "TRIGGER_N_COMENTARIOS"
+ON COMMENTS
+FOR INSERT
+AS	
+	DECLARE @C_ID_USER int
+    BEGIN
+		
+		SELECT @c_id_user = c.id_user  FROM USERS u, COMMENTS c WHERE u.id_user = c.id_user
+		
+			UPDATE USERS 
+				SET n_comment = n_comment+1
+				WHERE ID_USER = @C_ID_USER
+END;
+
+
+CREATE TRIGGER "TRIGGER_MENSAJES_LEIDOS"
+ON MP
+FOR UPDATE
+AS	
+	DECLARE @ID_INBOX int
+    BEGIN
+		
+		SELECT @ID_INBOX = m.id_inbox FROM INBOX i, MP m WHERE i.id_inbox = m.id_inbox
+		
+			UPDATE INBOX 
+				SET messages_out = messages_out-1
+				WHERE ID_INBOX = @ID_INBOX
+END;
+
+CREATE TRIGGER "TRIGGER_N_MENSAJES"
+ON MP
+FOR INSERT
+AS	
+	DECLARE @ID_INBOX int
+    BEGIN
+		
+		SELECT @ID_INBOX = m.id_inbox FROM INBOX i, MP m WHERE i.id_inbox = m.id_inbox
+		
+			UPDATE INBOX 
+				SET messages_in = messages_in+1, messages_out = messages_out+1
+				WHERE ID_INBOX = @ID_INBOX
+END;
+
+
+
+create TRIGGER "TRIGGER_COMENTARIOS_ELIMINADOS"
+ON Comments
+FOR DELETE
+AS	
+	DECLARE @C_ID_USER int
+    BEGIN
+		
+		SELECT @c_id_user = id_user  FROM DELETED COMMENTS 
+		
+			UPDATE USERS 
+				SET n_comment = n_comment-1
+				WHERE ID_USER = @C_ID_USER
+END;

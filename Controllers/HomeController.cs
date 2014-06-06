@@ -28,9 +28,10 @@ namespace Tarea2BD.Controllers
             Session["UserIDG"] = Session["UserIDG"];
             Session["UserID"] = Session["UserID"];
             Session["User"] = Session["User"];
-            Session["CatName"] = null;
-            Session["TopicName"] = null;
+            Session["CatName"] = Session["CatName"];
+            Session["TopicName"] = Session["TopicName"];
             ViewData["VerPerfilID"] = id;
+            ViewBag.SessionUserIDG = Session["UserIDG"];
             ViewBag.Message = "Perfil de " + name;
 
             return View();
@@ -150,7 +151,8 @@ namespace Tarea2BD.Controllers
             Session["CatName"] = null;
             Session["TopicName"] = null;
 
-            return View();
+            //return View();
+            return RedirectToAction("Categorias","Home");
         }
 
         public ActionResult Inbox()
@@ -169,7 +171,7 @@ namespace Tarea2BD.Controllers
             Session["UserID"] = Session["UserID"];
             Session["User"] = Session["User"];
             User users = new User();
-            List<string> names = users.getAllUsersNames();
+            List<string> names = users.getAllUsersNamesNormal();
             List<string> passes = users.getAllUsersPass();
             ViewBag.Items = names;
             ViewBag.items2 = passes;
@@ -237,7 +239,7 @@ namespace Tarea2BD.Controllers
             int retorno = 0;
             ViewBag.Message = "Formulario de Registro";
             string user = (string)Request["UserName"];
-            int id_group = int.Parse(Request["UserType"]);
+            //int id_group = int.Parse(Request["UserType"]);
             string pass = (string)Request["PassUser"];
             string rpass = (string)Request["RPass"];
             string born = (string)Request["UserBorn"];
@@ -255,7 +257,7 @@ namespace Tarea2BD.Controllers
 
             using (SqlConnection connection = BD.getConnection())
             {
-                SqlCommand Comando = new SqlCommand(string.Format(sql,id_group,user,pass,0,url,born,sex,date), connection);
+                SqlCommand Comando = new SqlCommand(string.Format(sql,3,user,pass,0,url,born,sex,date), connection);
 
                 retorno = Comando.ExecuteNonQuery();
                 connection.Close();
@@ -313,7 +315,8 @@ namespace Tarea2BD.Controllers
             Session["UserID"] = user.id;
             Session["UserIDG"] = user.id_group;
             //MessageBox.Show("Bienvenido " + user.name,"Wellcome" ,MessageBoxButtons.OK);
-            return Redirect("UserIn");
+            //return Redirect("UserIn");
+            return Redirect("Categorias");
         }
 
         [HttpGet]

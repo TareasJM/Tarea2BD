@@ -9,6 +9,18 @@
     <meta name="viewport" content="width=device-width" />
     <link href="../../Resources/Index.css" type="text/css" rel="stylesheet" />
     <title></title>
+     <script  src="jquery.js"></script>
+    <script type="text/ecmascript">
+        function validateForm() {
+            var Mensaje = document.getElementById("Mensaje").value;
+
+            if (Mensaje.length < 1) {
+                alert("Error: Escriba algo para comentar");
+                return false;
+            };
+            return true; // return false to cancel form action
+        }
+    </script>
 </head>
 <body>
     
@@ -21,13 +33,13 @@
                     <ul>
                          <%if( Session["User"] == null)
                         {%>
-                        <li><%:Html.ActionLink("Home","Index","Home")%></li>
+                        <li><%:Html.ActionLink("Home","Categorias","Home")%></li>
                         <li><%:Html.ActionLink("Login","Login","Home")%></li>
                         <li><%:Html.ActionLink("Register","Registracion","Home")%></li>
                         <% }%>
                         <%else
                           {%>
-                        <li><%:Html.ActionLink("Home","UserIn","Home")%></li>
+                        <li><%:Html.ActionLink("Home","Categorias","Home")%></li>
                         <li><%:Html.ActionLink((string)Session["User"], "MiPerfil", "Home")%></li>
                         <li><%:Html.ActionLink("Logout","Logout","Home")%></li>
                         <%}%>
@@ -52,7 +64,7 @@
                  <%using(Html.BeginForm("Comentar2","Categorias"))
                    {%>
                    
-                    <textarea style=" border: 1px solid black; margin-top:50px; resize:none; width:90%; height:75px; position:static" name="Mensaje"></textarea>
+                    <textarea style=" border: 1px solid black; margin-top:50px; resize:none; width:90%; height:75px; position:static" name="Mensaje" id="Mensaje"></textarea>
                    
                     <table style="margin:auto">
                         <tr>

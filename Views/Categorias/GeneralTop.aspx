@@ -28,13 +28,13 @@
                     <ul>
                          <%if( Session["User"] == null)
                         {%>
-                        <li><%:Html.ActionLink("Home","Index","Home")%></li>
+                        <li><%:Html.ActionLink("Home","Categorias","Home")%></li>
                         <li><%:Html.ActionLink("Login","Login","Home")%></li>
                         <li><%:Html.ActionLink("Register","Registracion","Home")%></li>
                         <% }%>
                         <%else
                           {%>
-                        <li><%:Html.ActionLink("Home","UserIn","Home")%></li>
+                        <li><%:Html.ActionLink("Home","Categorias","Home")%></li>
                         <li><%:Html.ActionLink((string)Session["User"], "MiPerfil", "Home")%></li>                        
                         <li><%:Html.ActionLink("Logout","Logout","Home")%></li>
                         <%}%>

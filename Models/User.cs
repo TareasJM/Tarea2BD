@@ -131,6 +131,24 @@ namespace Tarea2BD.Models
             return users;
         }
 
+        public List<string> getAllUsersNamesNormal()
+        {
+            String sql = "Select name From Users order by id_user";
+            List<string> users = new List<string>();
+            using (SqlConnection connection = BD.getConnection())
+            {
+                SqlCommand Comando = new SqlCommand(string.Format(sql), connection);
+
+                SqlDataReader reader = Comando.ExecuteReader();
+                while (reader.Read())
+                {
+                    string user = reader.GetString(0);
+                    users.Add(user);
+                }
+            }
+            return users;
+        }
+
         public List<string> getAllUsersPass()
         {
             String sql = "Select pass From Users order by id_user";
@@ -166,6 +184,26 @@ namespace Tarea2BD.Models
                 
             }
             return false;
+        }
+
+
+        public string getNameUserByTopic(int id_user)
+        {
+            String sql = "Select name From Users where id_user = "+id_user;
+            string name = "";
+            using (SqlConnection connection = BD.getConnection())
+            {
+                SqlCommand Comando = new SqlCommand(string.Format(sql), connection);
+                SqlDataReader reader = Comando.ExecuteReader();
+                while (reader.Read())
+                {
+
+                    name = reader.GetString(0);
+                 
+                }
+
+            }
+            return name;
         }
 
     }

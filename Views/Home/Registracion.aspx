@@ -16,8 +16,8 @@
             var User = document.getElementById("UserName").value;
             var PassUser = document.getElementById("PassUser").value;
             var PassUserR = document.getElementById("PassUserR").value;
-            var UserType = document.getElementById("UserType");
-            var strUserType = UserType.options[UserType.selectedIndex].value;
+            //var UserType = document.getElementById("UserType");
+            //var strUserType = UserType.options[UserType.selectedIndex].value;
             var UserBorn = document.getElementById("UserBorn").value;
             var UserSex = document.getElementById("UserSex");
             var strUserSex = UserSex.options[UserSex.selectedIndex].value;
@@ -36,10 +36,10 @@
                 };
             };
 
-            if (strUserType == "0") {
-                alert("Error: Elija un tipo de usuario");
-                return false;
-            };
+            //if (strUserType == "0") {
+              //  alert("Error: Elija un tipo de usuario");
+                //return false;
+            //};
 
             if (PassUser != PassUserR) {
                 alert("Error: Contraseñas no coinciden!");
@@ -82,7 +82,7 @@
 
                 <div id="BH">
                     <ul>
-                        <li><%:Html.ActionLink("Home","Index","Home")%></li>
+                        <li><%:Html.ActionLink("Home","Categorias","Home")%></li>
                     </ul>
                 </div> 
 
@@ -108,7 +108,7 @@
                         <td><h2> User </h2> </td>
                         <td><input type="text" name="UserName" id = "UserName"/> </td>
                     </tr>
-                    <tr>
+                   <!-- <tr>
                         <td><h2> Tipo </h2> </td>
                         <td><select id="UserType" name="UserType">
                                 <option value="0" disabled selected style="display:none">Tipo de Usuario</option>
@@ -117,7 +117,7 @@
                                 <option value="3" >Usuario Comun</option>
                             </select> </td>
                         
-                    </tr>
+                    </tr>-->
                     <tr>
                         <td><h2> Pass </h2></td>
                         <td><input type="password" name="PassUser" id="PassUser"/> </td>

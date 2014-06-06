@@ -7,7 +7,8 @@
    Topics top = new Topics();
    topics = top.getAllTopicsByCatID(categorias.getIDCatName(cat));%>
 <% User user = new User();
-   user = user.getUserID((int)Session["UserID"]); %>
+   user = user.getUserID((int)Session["UserID"]);
+   User userTopic = new User(); %>
 <!DOCTYPE html>
 
 <html>
@@ -27,13 +28,13 @@
                     <ul>
                          <%if( Session["User"] == null)
                         {%>
-                        <li><%:Html.ActionLink("Home","Index","Home")%></li>
+                        <li><%:Html.ActionLink("Home","Categorias","Home")%></li>
                         <li><%:Html.ActionLink("Login","Login","Home")%></li>
                         <li><%:Html.ActionLink("Register","Registracion","Home")%></li>
                         <% }%>
                         <%else
                           {%>
-                        <li><%:Html.ActionLink("Home","UserIn","Home")%></li>
+                        <li><%:Html.ActionLink("Home","Categorias","Home")%></li>
                         <li><%:Html.ActionLink((string)Session["User"], "MiPerfil", "Home")%></li>
                         <li><%:Html.ActionLink("Logout","Logout","Home")%></li>
                         <%}%>
@@ -59,31 +60,32 @@
                    
                      <%for (int i = 0; i < n; i++ )
                        {
-                        if(!Session["UserIDG"].Equals(4))    
+                        if(!Session["UserIDG"].Equals(4) || (Session["UserIDG"].Equals(4) && topics[i].publico.Equals(1)))    
                         { %>    
-                           
-                        <table  style="margin:auto; padding-top:30px" >
+                        <%string name = userTopic.getNameUserByTopic(topics[i].id_user);%>
+                        <%int id = topics[i].id_user;%>
+                        <table style=" display:inline-block; margin:auto; padding-top:10px; width:90%">
+
                         <tr>
-                            <td><%:Html.ActionLink((string)ViewBag.Items[i], "GeneralTop", "Categorias",new {name = (string)ViewBag.Items[i]},new { @class = "boton"})%></td>
+                            <td style="padding-right:10px"><%:Html.ActionLink((string)ViewBag.Items[i], "GeneralTop", "Categorias",new {name = (string)ViewBag.Items[i]},new { @class = "boton"})%></td>
+                            <td style="padding-right:10px">Autor: <%:Html.ActionLink(name, "VerPerfil", "Home", new { id = id, name = name}, new { @class = "boton2" })%></td>
+                            <td>N Comments: <%=topics[i].getNumbersCommentsOfTopicByID(topics[i].id_topic)%></td>
+                        </tr>
+                        </table>
+                        <table style="margin:auto; padding-top:10px" >                         
+                        <tr>
+                            <td>Descripcion : <%=topics[i].descripcion%></td>
+                        </tr>
+                        </table>
                         
                         <%if (Session["UserIDG"].Equals(1) || Session["UserIDG"].Equals(2))
                         {%>
-                            
+                        <table style="margin:auto; padding-top:10px" >                         
+                            <tr>
                                 <td><%:Html.ActionLink("Eliminar","EliminarTop","Categorias",new { name = (string)ViewBag.Items[i]}, new { @class = "boton" })%></td>
-                            <%}%>
                             </tr>  
                           </table>                  
-                        <%}
-                          else if(Session["UserIDG"].Equals(4) && topics[i].publico.Equals(1))
-                          { %>  
-                             
-                            <table  style="margin:auto; padding-top:30px" >
-                                <tr>
-                                    <td><%:Html.ActionLink((string)ViewBag.Items[i], "GeneralTop", "Categorias",new {name = (string)ViewBag.Items[i]},new { @class = "boton"})%></td>  
-                                </tr>
-                            </table>
-                            
-                    <% }}%>
+                        <%}}}%>
 
 
             </div>

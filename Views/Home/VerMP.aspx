@@ -19,7 +19,7 @@
 
                 <div id="BH">
                     <ul>
-                        <li><%:Html.ActionLink("Home","UserIn","Home")%></li>
+                       <li><%:Html.ActionLink("Home","Categorias","Home")%></li>
                        <li><%:Html.ActionLink((string)Session["User"], "MiPerfil", "Home")%></li>
                     </ul>
                 </div> 

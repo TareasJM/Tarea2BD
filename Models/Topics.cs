@@ -102,6 +102,33 @@ namespace Tarea2BD.Models
             return top;
         }
 
+        public Topics getTopicsByIDCat(int id_cat)
+        {
+            String sql = "Select *From Topic where id_catTopic = " + id_cat;
+            Topics top = new Topics();
+            using (SqlConnection connection = BD.getConnection())
+            {
+                SqlCommand Comando = new SqlCommand(string.Format(sql, name), connection);
+
+                SqlDataReader reader = Comando.ExecuteReader();
+                while (reader.Read())
+                {
+
+                    top.id_topic = reader.GetInt32(0);
+                    top.id_categoria = reader.GetInt32(1);
+                    top.id_user = reader.GetInt32(2);
+                    top.name = reader.GetString(3);
+                    top.descripcion = reader.GetString(4);
+                    top.mensaje = reader.GetString(5);
+                    top.publico = reader.GetInt32(6);
+
+                }
+            }
+
+            return top;
+        }
+
+
         public bool DeleteTopicsByIDCat(int id)
         {
 
@@ -111,7 +138,7 @@ namespace Tarea2BD.Models
             {
                 SqlCommand Comando = new SqlCommand(string.Format(sql), connection);
                 retorno = Comando.ExecuteNonQuery();
-                if (retorno > 0)
+                if (retorno >= 0)
                 {
                     return true;
                 }
@@ -144,6 +171,25 @@ namespace Tarea2BD.Models
             return ListTopic;
         }
 
+        public int getNumbersCommentsOfTopicByID(int id_topic)
+        {
+            String sql = "Select Count(*) From Comments where id_topic ="+id_topic;
+            int num_comments = 0;
+            using (SqlConnection connection = BD.getConnection())
+            {
+                SqlCommand Comando = new SqlCommand(string.Format(sql), connection);
+
+                SqlDataReader reader = Comando.ExecuteReader();
+                while (reader.Read())
+                {
+                    num_comments = reader.GetInt32(0);
+                }
+               
+            }
+
+            return num_comments;
+
+        }
     }//class
 
      

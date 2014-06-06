@@ -2,7 +2,10 @@
 <%@ Import Namespace="Tarea2BD.Models" %>
 <%  Categorias cat = new Categorias();
     List<Categorias> categorias = new List<Categorias>();
-    categorias = cat.getAllCategories();%>
+    categorias = cat.getAllCategories();
+    Topics top = new Topics();
+    List<Topics> topics = new List<Topics>();
+    int numCommentsCat = 0;%>
 <% User user = new User();
    user = user.getUserID((int)Session["UserID"]); %>
 <!DOCTYPE html>
@@ -55,30 +58,39 @@
                           
                    
                             <%for (int i = 0; i < categorias.Count; i++ )
-                            {
-                            if(!Session["UserIDG"].Equals(4))    
+                            {   
+                              
+                                if ((Session["UserIDG"].Equals(4) && categorias[i].publico.Equals(1)) || !Session["UserIDG"].Equals(4))    
                             { %>
-                            
-                            <table style="margin:auto; padding-top:30px" >
+                            <%topics = top.getAllTopicsByCatID(categorias[i].id_categoria);%>
+                            <%top = top.getTopicsByIDCat(categorias[i].id_categoria);%>
+                            <%for (int j = 0; j < topics.Count; j++)
+                              {
+                                  numCommentsCat += topics[j].getNumbersCommentsOfTopicByID(topics[j].id_topic);
+                                 
+                              }%>
+                            <table style=" display:inline-block; margin:auto; padding-top:10px; width:90%">
                                 <tr>
-                                    <td><%:Html.ActionLink(categorias[i].name, "GeneralCat", "Categorias", new { name = categorias[i].name }, new { @class = "boton" })%></td>
-                                    <%if(Session["UserIDG"].Equals(1) || Session["UserIDG"].Equals(2))
-                                      {%>
-                                    <td><%:Html.ActionLink("Eliminar","EliminarCa","Categorias",new { id = categorias[i].id_categoria }, new { @class = "boton" })%></td>
-                                        <%} %>
+                                    <td style="padding-right:10px"><%:Html.ActionLink(categorias[i].name, "GeneralCat", "Categorias", new { name = categorias[i].name }, new { @class = "boton" })%></td>
+                                    <td style="padding-right:10px">Temas: <%=topics.Count%></td>
+                                    <td style="padding-right:10px">Comments: <%=numCommentsCat%></td>
+                                    <%numCommentsCat = 0;%>
+                                    <td>Last Comment: <%=categorias[i].getLasTopicCommentedForIDCat(categorias[i].id_categoria)%></td>
                                 </tr>
                             </table>
-                           <%}
-                             else if(Session["UserIDG"].Equals(4) && categorias[i].publico.Equals(1))
-                             { %> 
-                            <table style="margin:auto; padding-top:30px" >
+                            <table style="margin:auto; padding-top:10px" > 
                                 <tr>
-                                    <td><%:Html.ActionLink(categorias[i].name, "GeneralCat", "Categorias", new { name = categorias[i].name }, new { @class = "boton" })%></td>
+                                    <td>Descripcion  :  <%=categorias[i].descripcion%></td>
                                 </tr>
-                           </table>
-                            <%} %>    
-
-                    <% }}%>
+                            </table>
+                            <%if(Session["UserIDG"].Equals(1) || Session["UserIDG"].Equals(2))
+                            {%>
+                            <table style="margin:auto; padding-top:10px;" >
+                                <tr>
+                                    <td><%:Html.ActionLink("Eliminar","EliminarCa","Categorias",new { id = categorias[i].id_categoria }, new { @class = "boton" })%></td>
+                                </tr>
+                            </table>
+                           <%}}}}%>
 
             </div>
 
@@ -86,15 +98,13 @@
                 <% if(Session["UserIDG"].Equals(1))
                     { %>
                         <li><%:Html.ActionLink("Nueva Categoria","NuevaCategoria","Categorias")%></li>
-                        <li><a href="/Home/UserIn">Back</a></li>
+                        
                     <%} 
-                    else if(!Session["UserIDG"].Equals(4))
+                    if(!Session["UserIDG"].Equals(4))
                         {%>
-                        <li><a href="/Home/UserIn">Back</a></li>
-                    <%} 
-                      else
-                      {%>
-                        <li><a href="/Home/Index">Back</a></li>
+                        <li><%:Html.ActionLink("Mi Perfil","MiPerfil","Home")%></li>
+                        <li><%:Html.ActionLink("Enviar MP", "MP", "Home", new { name = "Destinatario"})%></li>
+                        <li><%:Html.ActionLink("Bandeja de Entrada","Inbox","Home")%></li>
                     <%} %>
             </div>
 

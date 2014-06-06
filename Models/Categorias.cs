@@ -116,5 +116,26 @@ namespace Tarea2BD.Models
             return ListCat;
         }
 
+        public string getLasTopicCommentedForIDCat(int id_cat)
+        {
+
+            String sql = "Select TOP(1) nameTopic From VIEW_ULTIMOS_TEMAS_COMENTADOS WHERE id_catTopic =" + id_cat + "order by id_comment DESC";
+            string name = "";
+            using (SqlConnection connection = BD.getConnection())
+            {
+                SqlCommand Comando = new SqlCommand(string.Format(sql), connection);
+
+                SqlDataReader reader = Comando.ExecuteReader();
+                while (reader.Read())
+                {
+
+                    name = reader.GetString(0).ToUpper();
+                    
+                }
+            }
+
+            return name;
+        }
+
     }
 }

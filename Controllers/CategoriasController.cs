@@ -151,12 +151,9 @@ namespace Tarea2BD.Controllers
 
                 for (int i = 0; i < topics.Count; i++)
                 {
-                    if (comments.DeleteCommentsByIDTopic(topics[i].id_topic))
+                    if (!comments.DeleteCommentsByIDTopic(topics[i].id_topic))
                     {
-                        continue;
-                    }
-                    else
-                    {
+ 
                         MessageBox.Show("Comentario de " + topics[i].id_topic + "no eliminado");
                     }
                 }

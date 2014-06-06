@@ -31,13 +31,13 @@
                         
                         <%if(!Session["UserIDG"].Equals(4))
                         {%>
-                        <li><%:Html.ActionLink("Home","UserIn","Home")%></li>
+                        <li><%:Html.ActionLink("Home","Categorias","Home")%></li>
                         <li><%:Html.ActionLink((string)Session["User"], "MiPerfil", "Home")%></li>
                         <li><%:Html.ActionLink("Logout","Logout","Home")%></li>
                         <%} %>
                         <%else 
                           {%>
-                        <li><%:Html.ActionLink("Home","Index","Home")%></li>
+                        <li><%:Html.ActionLink("Home","Categorias","Home")%></li>
                         <li><%:Html.ActionLink("Login","Login","Home")%></li>
                         <li><%:Html.ActionLink("Register","Registracion","Home")%></li>
                         <%} %>
@@ -107,15 +107,20 @@
                   <%if(Session["UserIDG"].Equals(1))
                   {%>
                     <li><%:Html.ActionLink("Editar Perfil", "EditarPerfil", "Home", new { id = user.id, name = user.name}, new {})%> </li>
-                <%} %>  
-                   <%if (Session["TopicName"] != null)
+                <%} %>
+                   <%if (Session["CatName"] != null && Session["TopicName"] == null)
+                    {%>
+                        <li><%:Html.ActionLink("Back", "GeneralCat", "Categorias", new { name = Session["CatName"] }, new { })%></li>
+                      
+                    <%} %> 
+                   <%if (Session["CatName"] != null && Session["TopicName"] != null)
                      {%>
                         <li><%:Html.ActionLink("Back", "GeneralTop", "Categorias", new { name = Session["TopicName"] }, new { })%></li>
                       
                     <%} 
-                     else
+                     else if(Session["CatName"] == null && Session["TopicName"] == null)
                      {%>
-                        <li><a href="/Home/UserIn">Back</a></li>
+                        <li><a href="/Home/Inbox">Back</a></li>
                     <%}%>
               
             </div>

@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width" />
     <link href="../../Resources/Index.css" type="text/css" rel="stylesheet" />
     <title></title>
-     <script  src="jquery.js"></script>
+    <script  src="jquery.js"></script>
     <script type="text/ecmascript">
         function validateForm() {
 
@@ -18,15 +18,17 @@
             var PassUserR = document.getElementById("PassUserR").value;           
             var UserBorn = document.getElementById("UserBorn").value;
             var UserAvatar = document.getElementById("UserAvatar-Url").value;
-            if (<%=Session["UserIDG"].Equals(1)%>) 
-            {   
+            var session = <%=ViewBag.SessionUserIDG%>;
+
+            if (session == 1) {
+
                 var UserType = document.getElementById("UserType");
                 var strUserType = UserType.options[UserType.selectedIndex].value;
                 if (strUserType == "0") {
-                alert("Error: Elija un tipo de usuario");
-                return false;
+                    alert("Error: Elija un tipo de usuario");
+                    return false;
                 };
-            };
+            }
 
             if (PassUser != PassUserR) {
                 alert("Error: Contraseñas no coinciden!");
@@ -48,7 +50,7 @@
                 alert("Error: Url no valida!");
                 return false;
             };
-            
+
             return true; // return false to cancel form action
         }
     </script>
@@ -65,13 +67,13 @@
                         
                         <%if(!Session["UserIDG"].Equals(4))
                         {%>
-                        <li><%:Html.ActionLink("Home","UserIn","Home")%></li>
+                        <li><%:Html.ActionLink("Home","Categorias","Home")%></li>
                         <li><%:Html.ActionLink((string)Session["User"], "MiPerfil", "Home")%></li>
                         <li><%:Html.ActionLink("Logout","Logout","Home")%></li>
                         <%} %>
                         <%else 
                           {%>
-                        <li><%:Html.ActionLink("Home","Index","Home")%></li>
+                        <li><%:Html.ActionLink("Home","Categorias","Home")%></li>
                         <li><%:Html.ActionLink("Login","Login","Home")%></li>
                         <li><%:Html.ActionLink("Register","Registracion","Home")%></li>
                         <%} %>
@@ -93,8 +95,7 @@
                 
                 <h2><%=ViewBag.Message%></h2>
                 <img src="<%=user.a_url%>" height="100" width="100" /> 
-                <% using(Html.BeginForm("EditarPerfil2","Home"))
-                {%>
+                <form id="regForm" action="/Home/EditarPerfil2" method="post" onsubmit="return validateForm()">                
                 <table style="margin:auto; position:static" >
                     <%if(Session["UserIDG"].Equals(1))
                       {%>
@@ -110,11 +111,11 @@
                     <%} %>   
                     <tr>
                         <td><h2> Pass </h2> </td>
-                        <td><input type="text" name="PassUser" id="PassUser"/> </td>
+                        <td><input type="password" name="PassUser" id="PassUser"/> </td>
                     </tr>            
                     <tr>
                         <td><h2> R-Pass </h2> </td>
-                        <td><input  type="text" name="PassUserR" id="PassUserR"/> </td>
+                        <td><input  type="password" name="PassUserR" id="PassUserR"/> </td>
                     </tr>
                     <tr>
                         <td><h2> Born </h2> </td>
@@ -128,11 +129,15 @@
                 <input type="hidden" name="UserName" value="<%=user.name%>" />
                 <input type="hidden" name="IDVeedor" value="<%=user.id%>" />
                 <input  type="submit" value="Editar"/>  
-                <%} %>
+            </form>
             </div>
 
             <div id="CD">
-                   <%if (Session["TopicName"] != null && Session["CatName"] != null)
+                   <%if(Session["TopicName"] != null && Session["CatName"] != null && (!Session["UserID"].Equals(user.id) || Session["UserID"].Equals(user.id)))
+                     {%>
+                        <li><%:Html.ActionLink("Back", "VerPerfil", "Home",new { id = user.id, name = user.name}, new {})%></li>                     
+                    <%}%>
+                   <%else if (Session["TopicName"] != null && Session["CatName"] != null)
                      {%>
                         <li><%:Html.ActionLink("Back", "GeneralTop", "Categorias", new { name = Session["TopicName"] }, new { })%></li>                     
                     <%} 
@@ -140,11 +145,12 @@
                      {%>
                         <li><%:Html.ActionLink("Back", "GeneralCat", "Categorias", new { name = Session["CatName"] }, new { })%></li>                     
                     <%}
-                     else if(Session["TopicName"] == null && Session["CatName"] == null)
-                     {%>
-                        <li><%:Html.ActionLink("Back", "MiPerfil", "Home")%></li>                     
+                     else if (!Session["UserID"].Equals(user.id) || Session["UserID"].Equals(user.id))
+                    {%>
+                        <li><%:Html.ActionLink("Back", "VerPerfil", "Home",new { id = user.id, name = user.name}, new {})%></li>
                     <%}%>
-
+                    
+                <!-- VER PERFIL BACK - PERFIL USUARIO VISTO -->
             </div>
 
             <div id="footer">

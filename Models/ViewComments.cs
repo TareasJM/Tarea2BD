@@ -9,12 +9,13 @@ namespace Tarea2BD.Models
 {
     public class ViewComments
     {
-        public int id_topic;
         public int id_user;
-        public int id_comment;
-        public string nameTopic;
         public string nameUser;
-
+        public int id_topic;
+        public int id_catTopic;
+        public string nameTopic;
+        public int id_comment;
+        
         public ViewComments()
         {
 
@@ -37,8 +38,9 @@ namespace Tarea2BD.Models
                     view.id_user = reader.GetInt32(0);
                     view.nameUser = reader.GetString(1);
                     view.id_topic = reader.GetInt32(2);
-                    view.nameTopic = reader.GetString(3);  
-                    view.id_comment = reader.GetInt32(4);
+                    view.id_catTopic = reader.GetInt32(3);
+                    view.nameTopic = reader.GetString(4);  
+                    view.id_comment = reader.GetInt32(5);
                     
                     views.Add(view);
                 }

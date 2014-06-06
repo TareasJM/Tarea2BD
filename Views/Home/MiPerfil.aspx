@@ -27,7 +27,7 @@
 
                 <div id="BH">
                     <ul>
-                        <li><%:Html.ActionLink("Home","UserIn","Home")%></li>
+                        <li><%:Html.ActionLink("Home","Categorias","Home")%></li>
                         <li><%:Html.ActionLink((string)Session["User"], "MiPerfil", "Home")%></li>
                         <li><%:Html.ActionLink("Logout","Logout","Home")%></li>
                     </ul>
@@ -98,7 +98,7 @@
                 <li><%:Html.ActionLink("Editar Perfil", "EditarPerfil", "Home", new { id = user.id, name = user.name}, new {})%> </li>
                 <li><%:Html.ActionLink("Enviar MP", "MP", "Home", new { name = "Destinatario"})%></li>
                 <li><%:Html.ActionLink("Bandeja de Entrada","Inbox","Home")%></li>
-                <li><a href="/Home/UserIn">Back</a></li>
+                <li><a href="/Home/Categorias">Back</a></li>
             </div>
 
             <div id="footer">

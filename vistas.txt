@@ -1,0 +1,35 @@
+VIEW_TEMAS_USUARIO
+
+SELECT        TOP (100) PERCENT dbo.Topic.id_topic, dbo.Topic.nameTopic, dbo.Users.id_user, dbo.Users.name
+FROM            dbo.Topic INNER JOIN
+                         dbo.Users ON dbo.Topic.id_userTopic = dbo.Users.id_user AND dbo.Topic.id_userTopic = dbo.Users.id_user
+ORDER BY dbo.Topic.id_topic DESC
+
+
+
+
+VIEW_ULTIMOS_COMENTARIOS
+
+
+SELECT        TOP (100) PERCENT dbo.Topic.nameTopic, dbo.Users.id_user, dbo.Users.name, dbo.Comments.id_comment, dbo.Topic.id_topic, dbo.Topic.id_catTopic
+FROM            dbo.Topic INNER JOIN
+                         dbo.Users ON dbo.Topic.id_userTopic = dbo.Users.id_user INNER JOIN
+                         dbo.Comments ON dbo.Topic.id_topic = dbo.Comments.id_topic AND dbo.Users.id_user = dbo.Comments.id_user AND 
+                         dbo.Topic.id_topic = dbo.Comments.id_topic
+ORDER BY dbo.Comments.id_comment DESC
+
+
+CREATE VIEW "VIEW_ULTIMOS_TEMAS_COMENTADOS"
+AS
+SELECT TOP(100) u.id_user, u.name, t.id_topic, t.id_catTopic, t.nameTopic, c.id_comment 
+FROM USERS u, TOPIC t, COMMENTS c
+WHERE c.id_topic = t.id_topic and u.id_user = c.id_user
+ORDER BY c.id_topic DESC
+
+
+CREATE VIEW VIEW_ULTIMOS_TEMAS2
+AS
+SELECT TOP(100)  t.id_topic, t.nameTopic,u.id_user, u.name
+FROM USERS u, TOPIC t
+WHERE u.id_user = t.id_userTopic 
+ORDER BY t.id_topic DESC
